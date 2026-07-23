@@ -1,6 +1,7 @@
 package Car;
 
 import java.time.Year;
+import java.util.Objects;
 
 public class Car {
     private final int power;
@@ -24,6 +25,28 @@ public class Car {
 
     public int getYear(){
         return year;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return getPower() == car.getPower() && getYear() == car.getYear() && getModel().equals(car.getModel());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPower(), getModel(), getYear());
+    }
+
+    @Override
+    public String toString() {
+        return "Автомобиль{" +
+                "Мощность=" + power +
+                " л.с., Модель='" + model + '\'' +
+                ", Год выпуска=" + year +
+                '}';
     }
 
     public static class Builder {
@@ -98,15 +121,6 @@ public class Car {
                 );
             }
             return new Car(this);
-        }
-
-        @Override
-        public String toString() {
-            return "Автомобиль{" +
-                    "Мощность=" + power +
-                    " л.с., Модель='" + model + '\'' +
-                    ", Год выпуска=" + year +
-                    '}';
         }
     }
 }
