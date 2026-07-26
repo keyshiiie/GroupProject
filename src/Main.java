@@ -31,6 +31,7 @@ public class Main {
 
         commandRegistry.register(new HelpCommand(commandRegistry));
         commandRegistry.register(new ExitCommand());
+
         commandRegistry.register(
                 new SortingCommand(
                         sortRegistry,
@@ -51,9 +52,18 @@ public class Main {
                 )
         );
 
+        commandRegistry.register(new OutputCarsCommand(carsStorage));
+
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.println("Система управления автомобилями запущена.");
-            System.out.println("Введите 'help' для списка команд, 'exit' для выхода.\n");
+
+            ConsoleCommand helpCommand = commandRegistry.getCommand("help");
+
+            if (helpCommand != null) {
+                helpCommand.execute(new String[0]);
+            } else {
+                System.out.println("Команда 'help' не найдена — проверьте регистрацию команд.");
+            }
 
             while (true) {
                 System.out.print("> ");

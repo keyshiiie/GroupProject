@@ -3,7 +3,6 @@ package MainMenu;
 import Car.Car;
 import registry.StrategyRegistry;
 import strategy.InputStrategy;
-import strategy.NamedStrategy;
 
 import java.io.PrintStream;
 import java.util.List;

@@ -5,20 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d6dae085-cbb5-4ab2-9a6c-5cde6538318c" name="Changes" comment="car + builder">
-      <change afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MainMenu/CommandRegistry.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MainMenu/ConsoleCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MainMenu/ExitCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MainMenu/HelpCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MainMenu/InputNewCarsCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MainMenu/SortingCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/TestDataCarInputStrategy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/registry/InputStrategyRegistry.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/registry/SortStrategyRegistry.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/registry/StrategyRegistry.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/strategy/InputStrategy.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/strategy/SortStrategy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MainMenu/ShowCarsCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MainMenu/InputNewCarsCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainMenu/InputNewCarsCommand.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
