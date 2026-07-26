@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="d6dae085-cbb5-4ab2-9a6c-5cde6538318c" name="Changes" comment="car + builder">
+      <change afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MainMenu/CommandRegistry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MainMenu/ConsoleCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MainMenu/ExitCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MainMenu/HelpCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MainMenu/InputNewCarsCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MainMenu/SortingCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/TestDataCarInputStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/registry/InputStrategyRegistry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/registry/SortStrategyRegistry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/registry/StrategyRegistry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/strategy/InputStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/strategy/SortStrategy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Car/Car.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Car/Car.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,6 +28,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -23,19 +39,30 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="3Gtev8ozzhgZLBeTUNPpe2sEhSx" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Main (1).executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main__menu",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Андрей/IdeaProjects/GroupProject"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.Main (1)">
     <configuration name="CarTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Car.CarTest" />
       <module name="GroupProject" />
@@ -45,6 +72,13 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="GroupProject" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -64,6 +98,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main (1)" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.CarTest" />
       </list>
@@ -117,5 +152,16 @@
     <MESSAGE value="load" />
     <MESSAGE value="car + builder" />
     <option name="LAST_COMMIT_MESSAGE" value="car + builder" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MainMenu/CommandRegistry.java</url>
+          <line>8</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
