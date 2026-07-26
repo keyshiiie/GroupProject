@@ -1,6 +1,9 @@
 package MainMenu;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class CommandRegistry {
     private final Map<String, ConsoleCommand> commands = new HashMap<>();
