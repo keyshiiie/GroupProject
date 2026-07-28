@@ -16,12 +16,6 @@ public class Main {
         sortRegistry.register(new SortByPowerStrategy());
         sortRegistry.register(new SortByModelStrategy());
         sortRegistry.register(new SortByYearStrategy());
-
-        // --- Стратегии ввода ---
-        inputRegistry.register(new FileInputStrategy());
-        inputRegistry.register(new ConsoleInputStrategy());
-        inputRegistry.register(new RandomInputStrategy());
-        inputRegistry.register(new MyNewInputStrategy());
         */
 
 
