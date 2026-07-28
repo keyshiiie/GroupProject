@@ -1,4 +1,4 @@
-package Car;
+package car;
 
 import java.time.Year;
 import java.util.Objects;
@@ -101,10 +101,10 @@ public class Car {
                         "Модель должна содержать максимум 255 символов (текущая длина: " + trimmedModel.length() + ")"
                 );
             }
-            if (!trimmedModel.matches("^[\\p{L}\\p{N}\\s-]+$")) {
+            if (!trimmedModel.matches("^[\\p{L}\\p{N}\\s./-]+$")) {
                 throw new IllegalArgumentException(
                         "Модель содержит запрещенные символы. " +
-                                "Разрешены только буквы, цифры, пробелы и дефисы. " +
+                                "Разрешены только буквы, цифры, пробелы и дефисы, точки и слеши. " +
                                 "(текущее значение: '" + trimmedModel + "')"
                 );
             }
