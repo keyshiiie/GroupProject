@@ -1,4 +1,4 @@
-import Car.Car;
+import car.Car;
 import MainMenu.*;
 import registry.StrategyRegistry;
 import strategy.InputStrategy;

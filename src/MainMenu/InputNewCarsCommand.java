@@ -1,6 +1,6 @@
 package MainMenu;
 
-import Car.Car;
+import car.Car;
 import registry.StrategyRegistry;
 import strategy.InputStrategy;
 

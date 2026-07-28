@@ -2,7 +2,7 @@ package strategy;
 
 import java.util.Comparator;
 import java.util.List;
-import Car.Car;
+import car.Car;
 
 public interface SortStrategy extends NamedStrategy {
     Comparator<Car> getComparator();

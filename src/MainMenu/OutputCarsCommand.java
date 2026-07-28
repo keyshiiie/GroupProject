@@ -1,6 +1,6 @@
 package MainMenu;
 
-import Car.Car;
+import car.Car;
 import java.util.List;
 
 public class OutputCarsCommand implements ConsoleCommand {
