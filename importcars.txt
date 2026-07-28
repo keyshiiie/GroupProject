@@ -1,0 +1,6 @@
+Автомобиль: 150; Toyota Corolla; 2019
+Автомобиль: 200; Honda Accord; 2020
+Автомобиль: 250; Ford Mustang EcoBoost; 2021
+Автомобиль: 180; Volkswagen Golf GTI; 2018
+Автомобиль: 320; BMW 330i; 2022
+Автомобиль: 280; Mercedes-Benz C 300; 2020

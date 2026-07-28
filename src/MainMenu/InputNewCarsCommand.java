@@ -6,6 +6,7 @@ import strategy.InputStrategy;
 
 import java.io.PrintStream;
 import java.util.List;
+import java.util.Scanner;
 import java.util.function.Consumer;
 
 public class InputNewCarsCommand implements ConsoleCommand {
@@ -14,14 +15,18 @@ public class InputNewCarsCommand implements ConsoleCommand {
     private final Consumer<List<Car>> onCarsLoaded;
     private final PrintStream out;
 
+    private final Scanner scanner;
+
     public InputNewCarsCommand(
             StrategyRegistry<InputStrategy> inputRegistry,
             Consumer<List<Car>> onCarsLoaded,
-            PrintStream out
+            PrintStream out,
+            Scanner scanner
     ) {
         this.inputRegistry = inputRegistry;
         this.onCarsLoaded = onCarsLoaded;
         this.out = out;
+        this.scanner = scanner;
     }
 
     @Override
@@ -49,7 +54,7 @@ public class InputNewCarsCommand implements ConsoleCommand {
         }
         out.print("Ваш выбор: ");
 
-        String line = readLine();
+        String line = scanner.nextLine().strip();
         if (line == null || line.strip().isEmpty()) {
             out.println("Выбор отменён.");
             return;
@@ -81,15 +86,5 @@ public class InputNewCarsCommand implements ConsoleCommand {
 
         onCarsLoaded.accept(cars);
         out.printf("Загружено автомобилей: %d%n", cars.size());
-    }
-
-    private String readLine() {
-        try (var scanner = new java.util.Scanner(System.in)) {
-            scanner.useDelimiter("\\R");
-            if (scanner.hasNext()) {
-                return scanner.next();
-            }
-            return null;
-        }
     }
 }

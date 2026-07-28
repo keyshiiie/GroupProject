@@ -1,4 +1,4 @@
-package Reader;
+package strategy;
 
 import car.Car;
 
@@ -9,8 +9,35 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
-public class CarReader {
+public class FileInputStrategy implements InputStrategy {
+    private final Scanner scanner;
+
+    public FileInputStrategy(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    @Override
+    public String getLabel() {
+        return "Загрузка автомобилей из файла";
+    }
+
+    @Override
+    public List<Car> getCars() {
+        try {
+            System.out.print("Введите имя файла: ");
+            String filename = scanner.nextLine().trim();
+
+            System.out.print("Введите количество автомобилей для загрузки: ");
+            int size = Integer.parseInt(scanner.nextLine().trim());
+            return readCarsFromFile(filename, size);
+        } catch (Exception e) {
+            System.err.println("Ошибка при чтении файла: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
     public static List<Car> readCarsFromFile(String filename,int size) throws Exception {
         Path path = findFile(filename);
         System.out.println("Файл найден: " + path.toAbsolutePath());

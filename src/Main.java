@@ -1,8 +1,7 @@
 import car.Car;
 import MainMenu.*;
 import registry.StrategyRegistry;
-import strategy.InputStrategy;
-import strategy.SortStrategy;
+import strategy.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -25,45 +24,52 @@ public class Main {
         inputRegistry.register(new MyNewInputStrategy());
         */
 
+
         var carsStorage = new ArrayList<Car>();
 
         CommandRegistry commandRegistry = new CommandRegistry();
 
-        commandRegistry.register(new HelpCommand(commandRegistry));
-        commandRegistry.register(new ExitCommand());
+        Scanner scanner = new Scanner(System.in);
 
-        commandRegistry.register(
-                new SortingCommand(
-                        sortRegistry,
-                        sorted -> {
-                            carsStorage.clear();
-                            carsStorage.addAll(sorted);
-                        },
-                        () -> carsStorage,
-                        System.out
-                )
-        );
+        try {
+            inputRegistry.register(new RandomInputStrategy(scanner));
+            inputRegistry.register(new ConsoleInputStrategy(scanner));
+            inputRegistry.register(new FileInputStrategy(scanner));
 
-        commandRegistry.register(
-                new InputNewCarsCommand(
-                        inputRegistry,
-                        carsStorage::addAll,
-                        System.out
-                )
-        );
+            commandRegistry.register(new HelpCommand(commandRegistry));
+            commandRegistry.register(new ExitCommand());
 
-        commandRegistry.register(new OutputCarsCommand(carsStorage));
+            commandRegistry.register(
+                    new SortingCommand(
+                            sortRegistry,
+                            sorted -> {
+                                carsStorage.clear();
+                                carsStorage.addAll(sorted);
+                            },
+                            () -> carsStorage,
+                            System.out
+                    )
+            );
 
-        try (Scanner scanner = new Scanner(System.in)) {
-            System.out.println("Система управления автомобилями запущена.");
+            commandRegistry.register(
+                    new InputNewCarsCommand(
+                            inputRegistry,
+                            carsStorage::addAll,
+                            System.out,
+                            scanner
+                    )
+            );
 
-            ConsoleCommand helpCommand = commandRegistry.getCommand("help");
+            commandRegistry.register(new OutputCarsCommand(carsStorage));
 
-            if (helpCommand != null) {
-                helpCommand.execute(new String[0]);
-            } else {
-                System.out.println("Команда 'help' не найдена — проверьте регистрацию команд.");
+            System.out.println("Добро пожаловать! Для выполнения действия введите команду из списка ниже.");
+
+            System.out.println("Доступные команды:");
+            for (String commandKey : commandRegistry.getAvailableCommands()) {
+                ConsoleCommand cmd = commandRegistry.getCommand(commandKey);
+                System.out.println("- " + cmd.getCommandText() + ": " + cmd.getUserGuide());
             }
+            System.out.println();
 
             while (true) {
                 System.out.print("> ");
@@ -86,8 +92,8 @@ public class Main {
                 cmd.execute(argArray);
             }
         } catch (Exception e) {
-                System.err.println("Произошла критическая ошибка: " + e.getMessage());
-                e.printStackTrace();
-            }
+            System.err.println("Произошла критическая ошибка: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
