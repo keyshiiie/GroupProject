@@ -1,7 +1,15 @@
 import car.Car;
-import MainMenu.*;
+import mainMenu.*;
 import registry.StrategyRegistry;
-import strategy.*;
+import strategy.count.CountByModelStrategy;
+import strategy.count.CountByPowerStrategy;
+import strategy.count.CountByYearStrategy;
+import strategy.count.CountStrategy;
+import strategy.input.ConsoleInputStrategy;
+import strategy.input.FileInputStrategy;
+import strategy.input.InputStrategy;
+import strategy.input.RandomInputStrategy;
+import strategy.sort.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -55,7 +63,8 @@ public class Main {
                                 carsStorage.addAll(sorted);
                             },
                             () -> carsStorage,
-                            System.out
+                            System.out,
+                            scanner
                     )
             );
 
