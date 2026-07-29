@@ -10,6 +10,7 @@ public class Main {
     public static void main(String[] args) {
         var sortRegistry = new StrategyRegistry<SortStrategy>();
         var inputRegistry = new StrategyRegistry<InputStrategy>();
+        var countRegistry = new StrategyRegistry<CountStrategy>();
 
         sortRegistry.register(new SortByPowerStrategy());
         sortRegistry.register(new SortByPowerEvenStrategy());
@@ -18,6 +19,8 @@ public class Main {
         sortRegistry.register(new SortByYearEvenStrategy());
 
         var carsStorage = new ArrayList<Car>();
+        var countResultStorage = new ArrayList<String>();
+
 
         CommandRegistry commandRegistry = new CommandRegistry();
 
@@ -28,6 +31,19 @@ public class Main {
             inputRegistry.register(new ConsoleInputStrategy(scanner));
             inputRegistry.register(new FileInputStrategy(scanner));
 
+            countRegistry.register(new CountByPowerStrategy(scanner));
+            countRegistry.register(new CountByYearStrategy(scanner));
+            countRegistry.register(new CountByModelStrategy(scanner));
+
+            commandRegistry.register(
+                    new CountingCommand(
+                            countRegistry,
+                            carsStorage::addAll,
+                            System.out,
+                            carsStorage,
+                            scanner,
+                            countResultStorage
+                    ));
             commandRegistry.register(new HelpCommand(commandRegistry));
             commandRegistry.register(new ExitCommand());
 
