@@ -11,13 +11,11 @@ public class Main {
         var sortRegistry = new StrategyRegistry<SortStrategy>();
         var inputRegistry = new StrategyRegistry<InputStrategy>();
 
-        /*
-         --- Стратегии сортировки---
         sortRegistry.register(new SortByPowerStrategy());
+        sortRegistry.register(new SortByPowerEvenStrategy());
         sortRegistry.register(new SortByModelStrategy());
         sortRegistry.register(new SortByYearStrategy());
-        */
-
+        sortRegistry.register(new SortByYearEvenStrategy());
 
         var carsStorage = new ArrayList<Car>();
 
@@ -59,10 +57,12 @@ public class Main {
             System.out.println("Добро пожаловать! Для выполнения действия введите команду из списка ниже.");
 
             System.out.println("Доступные команды:");
+
             for (String commandKey : commandRegistry.getAvailableCommands()) {
                 ConsoleCommand cmd = commandRegistry.getCommand(commandKey);
                 System.out.println("- " + cmd.getCommandText() + ": " + cmd.getUserGuide());
             }
+
             System.out.println();
 
             while (true) {
