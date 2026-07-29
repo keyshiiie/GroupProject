@@ -15,19 +15,22 @@ public class CountingCommand implements ConsoleCommand {
     private final Scanner scanner;
     private final PrintStream out;
     private final List<Car> carsStorage;
+    private final List<String> countResultStorage;
 
     public CountingCommand(
             StrategyRegistry<CountStrategy> countRegistry,
             Consumer<List<Car>> onCounted,
             PrintStream out,
             List<Car> carsStorage,
-            Scanner scanner
+            Scanner scanner,
+            List<String> countResultStorage
     ) {
         this.countRegistry = countRegistry;
         this.onCounted = onCounted;
         this.out = out;
         this.scanner = scanner;
         this.carsStorage = carsStorage;
+        this.countResultStorage = countResultStorage;
     }
 
     @Override
@@ -87,6 +90,13 @@ public class CountingCommand implements ConsoleCommand {
 
         try {
             int countElements = selected.count(carsStorage);
+
+            countResultStorage.clear();
+            String result = selected.getLabel() + ": " + selected.getSearchValue() +
+                    " → Найдено: " + countElements;
+            countResultStorage.add(result);
+
+
             out.println("Найдено элементов: " + countElements);
             out.println("\n-------------");
         } catch (Exception e) {

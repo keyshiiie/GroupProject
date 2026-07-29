@@ -37,4 +37,9 @@ public class CountByPowerStrategy extends BaseCountStrategy {
     public String getLabel() {
         return "Подсчет по мощности двигателя";
     }
+
+    @Override
+    public String getSearchValue() {
+        return String.valueOf(targetPower);
+    }
 }

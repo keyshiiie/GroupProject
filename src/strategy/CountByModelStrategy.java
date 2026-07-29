@@ -35,4 +35,9 @@ public class CountByModelStrategy extends BaseCountStrategy {
     public String getLabel() {
         return "Подсчет по модели автомобиля";
     }
+
+    @Override
+    public String getSearchValue() {
+        return String.valueOf(targetModel);
+    }
 }

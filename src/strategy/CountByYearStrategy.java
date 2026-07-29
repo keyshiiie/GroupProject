@@ -37,4 +37,9 @@ public class CountByYearStrategy extends BaseCountStrategy {
     public String getLabel() {
         return "Подсчет по году выпуска";
     }
+
+    @Override
+    public String getSearchValue() {
+        return String.valueOf(targetYear);
+    }
 }

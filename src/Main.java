@@ -20,6 +20,8 @@ public class Main {
 
 
         var carsStorage = new ArrayList<Car>();
+        var countResultStorage = new ArrayList<String>();
+
 
         CommandRegistry commandRegistry = new CommandRegistry();
 
@@ -40,7 +42,8 @@ public class Main {
                             carsStorage::addAll,
                             System.out,
                             carsStorage,
-                            scanner
+                            scanner,
+                            countResultStorage
                     ));
             commandRegistry.register(new HelpCommand(commandRegistry));
             commandRegistry.register(new ExitCommand());
