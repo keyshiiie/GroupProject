@@ -5,6 +5,9 @@ import strategy.count.CountByModelStrategy;
 import strategy.count.CountByPowerStrategy;
 import strategy.count.CountByYearStrategy;
 import strategy.count.CountStrategy;
+import strategy.export.ExportCarsStrategy;
+import strategy.export.ExportSearchResultStrategy;
+import strategy.export.ExportStrategy;
 import strategy.input.ConsoleInputStrategy;
 import strategy.input.FileInputStrategy;
 import strategy.input.InputStrategy;
@@ -19,6 +22,10 @@ public class Main {
         var sortRegistry = new StrategyRegistry<SortStrategy>();
         var inputRegistry = new StrategyRegistry<InputStrategy>();
         var countRegistry = new StrategyRegistry<CountStrategy>();
+
+        var exportRegistry = new StrategyRegistry<ExportStrategy>();
+        exportRegistry.register(new ExportCarsStrategy());
+        exportRegistry.register(new ExportSearchResultStrategy());
 
         sortRegistry.register(new SortByPowerStrategy());
         sortRegistry.register(new SortByPowerEvenStrategy());
@@ -78,6 +85,7 @@ public class Main {
             );
 
             commandRegistry.register(new OutputCarsCommand(carsStorage));
+            commandRegistry.register(new ExportCommand(exportRegistry, carsStorage, countResultStorage, scanner, System.out));
 
             System.out.println("Добро пожаловать! Для выполнения действия введите команду из списка ниже.");
 
