@@ -91,7 +91,6 @@ public class CountingCommand implements ConsoleCommand {
         try {
             int countElements = selected.count(carsStorage);
 
-            countResultStorage.clear();
             String result = selected.getLabel() + ": " + selected.getSearchValue() +
                     " - Найдено: " + countElements;
             countResultStorage.add(result);
