@@ -11,7 +11,7 @@ public class Car {
 
     private Car(Builder builder){
         this.power = builder.power;
-        this.model = builder.model;
+        this.model = builder.model.trim();
         this.year = builder.year;
     }
 

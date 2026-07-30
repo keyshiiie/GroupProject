@@ -2,7 +2,7 @@
 out/
 .idea/
 !src/main/**/out/
-!src/test/**/out/
+!test/**/out/
 
 ### Eclipse ###
 .apt_generated
@@ -14,7 +14,7 @@ out/
 .sts4-cache
 bin/
 !src/main/**/bin/
-!src/test/**/bin/
+!test/**/bin/
 
 ### NetBeans ###
 /nbproject/private/
