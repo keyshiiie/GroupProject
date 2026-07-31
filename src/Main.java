@@ -2,6 +2,7 @@ import car.Car;
 import MainMenu.*;
 import registry.StrategyRegistry;
 import strategy.*;
+import util.CarRandomList;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -26,6 +27,9 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         try {
+
+            CarRandomList.initCars();
+
             inputRegistry.register(new RandomInputStrategy(scanner));
             inputRegistry.register(new ConsoleInputStrategy(scanner));
             inputRegistry.register(new FileInputStrategy(scanner));
