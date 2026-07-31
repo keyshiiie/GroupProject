@@ -8,7 +8,7 @@ import java.io.PrintStream;
 import java.util.*;
 
 import static export.FileManager.getFileName;
-import static utils.MultithreadedCounter.isSorted;
+import static utils.SortedChecker.isSorted;
 
 public class ExportCommand implements ConsoleCommand {
     private final StrategyRegistry<ExportStrategy> exportStrategyRegistry;

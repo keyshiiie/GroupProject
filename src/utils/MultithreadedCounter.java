@@ -13,6 +13,10 @@ public class MultithreadedCounter {
             return 0;
         }
 
+        if (condition == null) {
+            throw new IllegalArgumentException("Условие не может быть null");
+        }
+
         int threadCount = Math.min(4, Runtime.getRuntime().availableProcessors());
         int chunkSize = (int) Math.ceil((double) cars.size() / threadCount);
 
@@ -53,18 +57,5 @@ public class MultithreadedCounter {
         }
 
         return total;
-    }
-
-    public static boolean isSorted(List<Car> cars, Comparator<Car> comparator) {
-        if (cars == null || cars.size() <= 1) {
-            return true;
-        }
-
-        for (int i = 0; i < cars.size() - 1; i++) {
-            if (comparator.compare(cars.get(i), cars.get(i + 1)) > 0) {
-                return false;
-            }
-        }
-        return true;
     }
 }

@@ -96,6 +96,7 @@ public class CountingCommand implements ConsoleCommand {
             countResultStorage.add(result);
 
 
+            onCounted.accept(carsStorage);
             out.println("Найдено элементов: " + countElements);
             out.println("\n-------------");
         } catch (Exception e) {
