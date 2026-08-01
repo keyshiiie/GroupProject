@@ -13,6 +13,7 @@ import strategy.input.FileInputStrategy;
 import strategy.input.InputStrategy;
 import strategy.input.RandomInputStrategy;
 import strategy.sort.*;
+import utils.CarRandomList;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -42,6 +43,9 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         try {
+
+            CarRandomList.initCars();
+
             inputRegistry.register(new RandomInputStrategy(scanner));
             inputRegistry.register(new ConsoleInputStrategy(scanner));
             inputRegistry.register(new FileInputStrategy(scanner));

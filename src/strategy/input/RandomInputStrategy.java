@@ -1,8 +1,7 @@
 package strategy.input;
 
 import car.Car;
-import strategy.input.FileInputStrategy;
-import strategy.input.InputStrategy;
+import utils.CarRandomList;
 
 
 import java.util.ArrayList;
@@ -23,7 +22,10 @@ public class RandomInputStrategy implements InputStrategy {
         try{
             System.out.print("Введите количество случайных автомобилей:");
             int size = Integer.parseInt(scanner.nextLine().trim());
-            List<Car> randomCars = new ArrayList<>(FileInputStrategy.readCarsFromFile("randomCarsFile.txt", 100));
+            List<Car> randomCars = new ArrayList<>();
+            do {
+                randomCars.addAll(CarRandomList.getCars());
+            }while (randomCars.size()<size);
             Collections.shuffle(randomCars);
             int actualSize = Math.min(size, randomCars.size());
             return randomCars.subList(0, actualSize);
