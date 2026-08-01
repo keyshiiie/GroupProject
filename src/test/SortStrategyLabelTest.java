@@ -1,5 +1,6 @@
 package test;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import strategy.*;
@@ -7,6 +8,7 @@ import strategy.*;
 class SortStrategyLabelTest {
 
     @Test
+    @DisplayName("Проверка корректности отображаемых названий всех стратегий сортировки")
     void labels_areCorrect() {
         assertEquals("По модели (model)", new SortByModelStrategy().getLabel());
         assertEquals("По мощности (power)", new SortByPowerStrategy().getLabel());

@@ -1,6 +1,7 @@
 package test;
 
 import car.Car;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import strategy.SortByPowerEvenStrategy;
 import strategy.SortByYearEvenStrategy;
@@ -14,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class SortEvenStrategiesTest {
 
     @Test
+    @DisplayName("Сортировка по году: нечётные годы остаются на своих местах, чётные сортируются по возрастанию")
     void sortByYearEven_keepsOddsInPlace_sortsEvens() {
         var strategy = new SortByYearEvenStrategy();
 
@@ -32,6 +34,7 @@ class SortEvenStrategiesTest {
     }
 
     @Test
+    @DisplayName("Сортировка по году: несколько нечётных годов — все остаются на исходных позициях, чётные корректно отсортированы")
     void sortByYearEven_multipleOdds_keepAllInPlace() {
         var strategy = new SortByYearEvenStrategy();
 
@@ -56,6 +59,7 @@ class SortEvenStrategiesTest {
     }
 
     @Test
+    @DisplayName("Сортировка по мощности: нечётные значения мощности остаются на местах, чётные сортируются по возрастанию")
     void sortByPowerEven_keepsOddsInPlace() {
         var strategy = new SortByPowerEvenStrategy();
 
@@ -79,6 +83,7 @@ class SortEvenStrategiesTest {
     }
 
     @Test
+    @DisplayName("Стратегии для чётных значений: корректно обрабатывают null и пустой список (возвращают пустой список)")
     void evenStrategies_handleEmptyAndNull() {
         var powerEven = new SortByPowerEvenStrategy();
         var yearEven = new SortByYearEvenStrategy();

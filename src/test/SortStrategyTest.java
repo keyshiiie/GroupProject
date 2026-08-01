@@ -2,6 +2,7 @@ package test;
 
 import car.Car;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -25,6 +26,7 @@ class SortStrategyTest {
     }
 
     @Test
+    @DisplayName("Сортировка по модели: автомобили упорядочиваются в алфавитном порядке по названию модели")
     void sortByModel_normal() {
         List<Car> cars = Arrays.asList(
                 new Car.Builder().setModel("Volvo XC90").setPower(150).setYear(2018).build(),
@@ -40,6 +42,7 @@ class SortStrategyTest {
     }
 
     @Test
+    @DisplayName("Сортировка по мощности: автомобили упорядочиваются по возрастанию мощности двигателя")
     void sortByPower_normal() {
         List<Car> cars = Arrays.asList(
                 new Car.Builder().setModel("AAAAA").setPower(200).setYear(2010).build(),
@@ -55,6 +58,7 @@ class SortStrategyTest {
     }
 
     @Test
+    @DisplayName("Сортировка по году: автомобили упорядочиваются по возрастанию года выпуска")
     void sortByYear_normal() {
         List<Car> cars = Arrays.asList(
                 new Car.Builder().setModel("XXXXX").setPower(120).setYear(2022).build(),
@@ -70,6 +74,7 @@ class SortStrategyTest {
     }
 
     @Test
+    @DisplayName("Пустой список: все стратегии корректно возвращают пустой список")
     void sort_emptyList_returnsEmpty() {
         List<Car> empty = Collections.emptyList();
 
@@ -79,6 +84,7 @@ class SortStrategyTest {
     }
 
     @Test
+    @DisplayName("Null‑список: все стратегии корректно обрабатывают null и возвращают пустой список")
     void sort_nullList_returnsEmpty() {
         assertAll(
                 () -> assertTrue(modelStrategy.sort(null).isEmpty()),
