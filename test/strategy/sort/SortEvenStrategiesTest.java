@@ -1,9 +1,7 @@
-package test;
+package strategy.sort;
 
 import car.Car;
 import org.junit.jupiter.api.Test;
-import strategy.sort.SortByPowerEvenStrategy;
-import strategy.sort.SortByYearEvenStrategy;
 
 import java.util.Arrays;
 import java.util.List;

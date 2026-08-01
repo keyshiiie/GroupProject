@@ -1,9 +1,8 @@
-package test;
+package strategy.sort;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import strategy.*;
-import strategy.sort.*;
 
 class SortStrategyLabelTest {
 

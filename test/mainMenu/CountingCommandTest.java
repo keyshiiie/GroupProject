@@ -44,7 +44,7 @@ class CountingCommandTest {
                 new Scanner(System.in),
                 countResultStorage
         );
-        assertEquals("strategy/count", command.getCommandText());
+        assertEquals("count", command.getCommandText());
     }
 
     @Test
