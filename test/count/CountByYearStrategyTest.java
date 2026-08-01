@@ -1,10 +1,11 @@
-package strategy.count;
+package count;
 
 import car.Car;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import strategy.count.CountByYearStrategy;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
