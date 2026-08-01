@@ -9,8 +9,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RandomCarReaderTest {
-
-
     @Test
     void shouldReadRangeValues() throws Exception {
         List<Car> cars = RandomCarReader.readRandomCarsFromFile();

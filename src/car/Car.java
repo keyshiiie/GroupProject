@@ -91,9 +91,9 @@ public class Car {
                         "Модель не может быть пустой"
                 );
             }
-            if (trimmedModel.length() < 5) {
+            if (trimmedModel.length() < 2) {
                 throw new IllegalArgumentException(
-                        "Модель должна содержать минимум 5 символов (текущая длина: " + trimmedModel.length() + ")"
+                        "Модель должна содержать минимум 2 символа (текущая длина: " + trimmedModel.length() + ")"
                 );
             }
             if (trimmedModel.length() > 255) {

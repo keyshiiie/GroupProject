@@ -1,7 +1,6 @@
 package car;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -36,13 +35,13 @@ public class CarTest {
     void testValidCarWithMinimalValues() {
         Car car = new Car.Builder()
                 .setPower(1)
-                .setModel("A1234")
+                .setModel("A1") // 2 символа - минимальная длина
                 .setYear(1886)
                 .build();
 
         assertNotNull(car);
         assertEquals(1, car.getPower());
-        assertEquals("A1234", car.getModel());
+        assertEquals("A1", car.getModel());
         assertEquals(1886, car.getYear());
     }
 
@@ -140,27 +139,22 @@ public class CarTest {
     }
 
     @Test
-    @DisplayName("Модель слишком короткая (меньше 5 символов) - должно быть исключение")
+    @DisplayName("Модель слишком короткая (меньше 2 символов) - должно быть исключение")
     void testModelTooShort() {
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
                 () -> builder.setModel("A").build()
         );
 
-        assertTrue(exception.getMessage().contains("минимум 5 символов"));
+        assertTrue(exception.getMessage().contains("минимум 2 символа"));
         assertTrue(exception.getMessage().contains("1"));
     }
 
     @Test
-    @DisplayName("Модель содержит 4 символа - должно быть исключение")
-    void testModelFourCharacters() {
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
-                () -> builder.setModel("1234").build()
-        );
-
-        assertTrue(exception.getMessage().contains("минимум 5 символов"));
-        assertTrue(exception.getMessage().contains("4"));
+    @DisplayName("Модель с 2 символами - валидная")
+    void testModelTwoCharacters() {
+        Car car = builder.setModel("A1").build();
+        assertEquals("A1", car.getModel());
     }
 
     @Test
@@ -230,7 +224,9 @@ public class CarTest {
                 "Mitsubishi Lancer Evolution", // пробелы
                 "Subaru Impreza WRX",  // пробелы
                 "Toyota Corolla",      // пробел
-                "Honda Civic Type-R"   // пробел и дефис
+                "Honda Civic Type-R",  // пробел и дефис
+                "A1",                  // 2 символа (минимальная длина)
+                "Ab"                   // 2 символа (минимальная длина)
         };
 
         for (String validModel : validModels) {
