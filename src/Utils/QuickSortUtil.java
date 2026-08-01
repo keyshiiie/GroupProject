@@ -35,7 +35,7 @@ public class QuickSortUtil {
             }
         }
 
-        swap(arr, i, high); // ставим опорный на финальную позицию
+        swap(arr, i, high);
 
         return i;
     }
