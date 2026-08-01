@@ -1,6 +1,6 @@
 package strategy.sort;
 
-import Comparators.CarPowerComparator;
+import comparators.CarPowerComparator;
 import car.Car;
 
 import java.util.*;

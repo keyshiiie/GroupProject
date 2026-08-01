@@ -1,8 +1,11 @@
-package strategy;
+package strategy.sort;
 
-import Comparators.CarPowerComparator;
-import Utils.QuickSortUtil;
+import comparators.CarPowerComparator;
+import utils.QuickSortUtil;
 import car.Car;
+import comparators.CarPowerComparator;
+import strategy.sort.AbstractEvenSortStrategy;
+
 import java.util.*;
 
 public class SortByPowerEvenStrategy extends AbstractEvenSortStrategy {

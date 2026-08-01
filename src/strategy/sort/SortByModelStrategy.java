@@ -1,7 +1,8 @@
 package strategy.sort;
 
-import Comparators.CarModelComparator;
+import comparators.CarModelComparator;
 import car.Car;
+import comparators.CarModelComparator;
 
 import java.util.*;
 

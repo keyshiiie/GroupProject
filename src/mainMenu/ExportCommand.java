@@ -1,7 +1,9 @@
 package mainMenu;
 
 import car.Car;
-import comparators.*;
+import comparators.CarModelComparator;
+import comparators.CarPowerComparator;
+import comparators.CarYearComparator;
 import registry.StrategyRegistry;
 import strategy.export.ExportStrategy;
 import java.io.PrintStream;
@@ -19,9 +21,7 @@ public class ExportCommand implements ConsoleCommand {
 
     private final CarPowerComparator powerComparator = new CarPowerComparator();
     private final CarModelComparator modelComparator = new CarModelComparator();
-    private final CarPowerEvenComparator powerEvenComparator = new CarPowerEvenComparator();
     private final CarYearComparator yearComparator = new CarYearComparator();
-    private final CarYearEvenComparator yearEvenComparator = new CarYearEvenComparator();
 
     public ExportCommand(StrategyRegistry<ExportStrategy> exportStrategyRegistry, List<Car> carsStorage,
                          ArrayList<String> countResultStorage, Scanner scanner, PrintStream out) {
@@ -45,7 +45,7 @@ public class ExportCommand implements ConsoleCommand {
     @Override
     public void execute(String[] args) {
         if (carsStorage.isEmpty()) {
-            System.out.println("Массив пуст.");
+            out.println("Массив пуст.");
             return;
         }
 
@@ -95,9 +95,6 @@ public class ExportCommand implements ConsoleCommand {
         }
     }
 
-    /**
-     * Выбор стратегии экспорта
-     */
     private ExportStrategy selectExportStrategy(List<ExportStrategy> strategies) {
         out.println("Выберите что экспортировать:");
 
@@ -130,9 +127,6 @@ public class ExportCommand implements ConsoleCommand {
         return strategies.get(idx);
     }
 
-    /**
-     * Получение данных для экспорта
-     */
     private List<?> getDataForExport(ExportStrategy selected) {
         String label = selected.getLabel();
 
@@ -150,17 +144,12 @@ public class ExportCommand implements ConsoleCommand {
         }
     }
 
-    /**
-     * Проверка сортировки массива по всем компараторам
-     * @return true - если отсортирован хотя бы по одному компаратору
-     */
     private boolean isArraySorted() {
+        // Используем только существующие компараторы
         List<Comparator<Car>> comparators = Arrays.asList(
                 powerComparator,
                 modelComparator,
-                powerEvenComparator,
-                yearComparator,
-                yearEvenComparator
+                yearComparator
         );
 
         for (Comparator<Car> comparator : comparators) {
@@ -173,9 +162,6 @@ public class ExportCommand implements ConsoleCommand {
         return false;
     }
 
-    /**
-     * Подтверждение экспорта неотсортированного массива
-     */
     private boolean confirmExportUnsorted() {
         out.println("Массив еще не был отсортирован.");
         out.println("Вы точно хотите сохранить его в файл?");

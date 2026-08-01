@@ -1,7 +1,9 @@
-package strategy;
+package strategy.sort;
 
-import Utils.QuickSortUtil;
+import utils.QuickSortUtil;
 import car.Car;
+import utils.QuickSortUtil;
+
 import java.util.*;
 
 public abstract class AbstractEvenSortStrategy extends AbstractSortStrategy {

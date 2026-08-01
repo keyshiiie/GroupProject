@@ -1,8 +1,10 @@
-package strategy;
+package strategy.sort;
 
-import Comparators.CarYearComparator;
-import Utils.QuickSortUtil;
+import comparators.CarYearComparator;
+import utils.QuickSortUtil;
 import car.Car;
+import strategy.sort.AbstractEvenSortStrategy;
+
 import java.util.*;
 
 public class SortByYearEvenStrategy extends AbstractEvenSortStrategy {
