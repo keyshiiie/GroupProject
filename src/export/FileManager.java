@@ -89,8 +89,6 @@ public class FileManager {
         return null;
     }
 
-    //TODO добавить выбор отсортированного массива или нет
-    //TODO уточнить как проверять отсортирован ли массив
     public static void writeCarToFile(String fileName, List<Car> carsStorage) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName + ".txt", true))) {
             for (Car car : carsStorage) {
