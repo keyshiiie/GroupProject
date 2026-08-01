@@ -1,6 +1,19 @@
 package mainMenu;
 
+import util.AppTerminator;
+import util.DefaultAppTerminator;
+
 public class ExitCommand implements ConsoleCommand {
+    private final AppTerminator terminator;
+
+    public ExitCommand() {
+        this(new DefaultAppTerminator());
+    }
+
+    public ExitCommand(AppTerminator terminator) {
+        this.terminator = terminator;
+    }
+
     @Override
     public String getCommandText() {
         return "exit";
@@ -13,7 +26,6 @@ public class ExitCommand implements ConsoleCommand {
 
     @Override
     public void execute(String[] args) {
-        System.out.println("Выход из приложения...");
-        System.exit(0);
+        terminator.terminate(0);
     }
 }
