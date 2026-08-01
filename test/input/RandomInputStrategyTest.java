@@ -35,7 +35,7 @@ class RandomInputStrategyTest {
         Scanner scanner = new Scanner(input);
         RandomInputStrategy strategy = new RandomInputStrategy(scanner);
 
-        List<Car> result = strategy.getCars();
+        List<Car> result = strategy.setCars();
         assertEquals(500, result.size());
 
         for (Car car : result) {
@@ -53,7 +53,7 @@ class RandomInputStrategyTest {
         Scanner scanner = new Scanner(input);
         RandomInputStrategy strategy = new RandomInputStrategy(scanner);
 
-        List<Car> result = strategy.getCars();
+        List<Car> result = strategy.setCars();
         assertEquals(2000000, result.size());
     }
 
@@ -63,7 +63,7 @@ class RandomInputStrategyTest {
         Scanner scanner = new Scanner(input);
         RandomInputStrategy strategy = new RandomInputStrategy(scanner);
 
-        List<Car> result = strategy.getCars();
+        List<Car> result = strategy.setCars();
         assertTrue(result.isEmpty());
     }
 
@@ -73,7 +73,7 @@ class RandomInputStrategyTest {
         Scanner scanner = new Scanner(input);
         RandomInputStrategy strategy = new RandomInputStrategy(scanner);
 
-        List<Car> result = strategy.getCars();
+        List<Car> result = strategy.setCars();
         assertTrue(result.isEmpty());
     }
 

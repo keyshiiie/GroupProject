@@ -1,6 +1,7 @@
 package strategy.input;
 
 import car.Car;
+import car.CarList;
 
 import java.io.BufferedReader;
 import java.nio.file.Files;
@@ -24,17 +25,18 @@ public class FileInputStrategy implements InputStrategy {
     }
 
     @Override
-    public List<Car> getCars() {
+    public CarList setCars() {
         try {
             System.out.print("Введите имя файла: ");
             String filename = scanner.nextLine().trim();
 
             System.out.print("Введите количество автомобилей для загрузки: ");
             int size = Integer.parseInt(scanner.nextLine().trim());
-            return readCarsFromFile(filename, size);
+            if(size <=0) throw new RuntimeException("размер должен быть больше 0");
+            return new CarList(readCarsFromFile(filename, size));
         } catch (Exception e) {
             System.err.println("Ошибка при чтении файла: " + e.getMessage());
-            return new ArrayList<>();
+            return new CarList(new ArrayList<>());
         }
     }
 

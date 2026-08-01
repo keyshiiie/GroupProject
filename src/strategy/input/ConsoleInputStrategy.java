@@ -1,10 +1,10 @@
 package strategy.input;
 
 import car.Car;
+import car.CarList;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 public class ConsoleInputStrategy implements InputStrategy {
 
@@ -15,44 +15,46 @@ public class ConsoleInputStrategy implements InputStrategy {
     }
 
     @Override
-    public List<Car> getCars() {
+    public CarList setCars() {
         try {
-            System.out.println("\n--- Ввод нового автомобиля ---");
-
-            System.out.print("Введите модель автомобиля: ");
-            String model = scanner.nextLine().trim();
-            if (model.isEmpty()) {
-                System.out.println("Модель не может быть пустой. Ввод отменён.");
-                return new ArrayList<>();
+            System.out.print("Введите количество автомобилей которые хотите добавить: ");
+            int size = Integer.parseInt(scanner.nextLine().trim());
+            if (size <= 0) {
+                System.err.println("Размер должен быть больше 0.");
+                return new CarList();
             }
-
-            System.out.print("Введите год производства: ");
-            int year = Integer.parseInt(scanner.nextLine().trim());
-
-            System.out.print("Введите мощность двигателя (л.с.): ");
-            int power = Integer.parseInt(scanner.nextLine().trim());
-
-            Car car = new Car.Builder()
-                    .setModel(model)
-                    .setYear(year)
-                    .setPower(power)
-                    .build();
-
-            List<Car> cars = new ArrayList<>();
-            cars.add(car);
-
-            System.out.println("Автомобиль успешно добавлен: " + car);
-            return cars;
+            return IntStream.range(0, size)
+                    .mapToObj(i -> readSingleCar(scanner, i + 1))
+                    .collect(CarList::new, CarList::add, CarList::addAll);
 
         } catch (NumberFormatException e) {
             System.err.println("Ошибка: введите корректное число!");
-            return new ArrayList<>();
+            return new CarList();
         } catch (Exception e) {
             System.err.println("Ошибка при вводе данных: " + e.getMessage());
-            return new ArrayList<>();
+            return new CarList();
         }
     }
+    private static Car readSingleCar(Scanner scanner, int index) {
+        System.out.println("\n--- Ввод автомобиля №" + index + " ---");
+        System.out.print("Введите модель автомобиля: ");
+        String model = scanner.nextLine().trim();
+        if (model.isEmpty()) {
+            throw new IllegalArgumentException("Модель не может быть пустой.");
+        }
 
+        System.out.print("Введите год производства: ");
+        int year = Integer.parseInt(scanner.nextLine().trim());
+
+        System.out.print("Введите мощность двигателя: ");
+        int power = Integer.parseInt(scanner.nextLine().trim());
+
+        return new Car.Builder()
+                .setModel(model)
+                .setYear(year)
+                .setPower(power)
+                .build();
+    }
     @Override
     public String getLabel() {
         return "Ручной ввод автомобиля с консоли";

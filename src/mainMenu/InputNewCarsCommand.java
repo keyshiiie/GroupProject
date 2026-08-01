@@ -78,7 +78,7 @@ public class InputNewCarsCommand implements ConsoleCommand {
 
         List<Car> cars;
         try {
-            cars = ((InputStrategy)selected).getCars();
+            cars = ((InputStrategy)selected).setCars();
         } catch (Exception e) {
             out.println("Ошибка при получении данных: " + e.getMessage());
             return;
