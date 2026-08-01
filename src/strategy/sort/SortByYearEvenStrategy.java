@@ -1,17 +1,24 @@
-package strategy.sort;
+package strategy;
 
+import Comparators.CarYearComparator;
+import Utils.QuickSortUtil;
 import car.Car;
-
 import java.util.*;
 
-public class SortByYearEvenStrategy extends AbstractSortStrategy {
+public class SortByYearEvenStrategy extends AbstractEvenSortStrategy {
+    private static final Comparator<Car> COMP = new CarYearComparator();
+
+    public SortByYearEvenStrategy() {
+        super(COMP);
+    }
+
     @Override
     public String getLabel() {
         return "По году (чётные только)";
     }
 
     @Override
-    public Comparator<Car> getComparator() {
-        return new comparators.CarYearEvenComparator();
+    protected boolean isEven(Car car) {
+        return car.getYear() % 2 == 0;
     }
 }

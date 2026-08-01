@@ -6,6 +6,5 @@ import car.Car;
 import strategy.NamedStrategy;
 
 public interface SortStrategy extends NamedStrategy {
-    Comparator<Car> getComparator();
     List<Car> sort(List<Car> cars);
 }
