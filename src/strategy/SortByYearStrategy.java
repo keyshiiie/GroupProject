@@ -1,11 +1,15 @@
 package strategy;
 
+import Comparators.CarYearComparator;
 import car.Car;
 import java.util.*;
 
 public class SortByYearStrategy extends AbstractSortStrategy {
-    @Override public String getLabel() { return "По году выпуска (year)"; }
-    @Override public Comparator<Car> getComparator() {
-        return Comparator.comparingInt(Car::getYear);
+    private static final Comparator<Car> COMP = new CarYearComparator();
+
+    public SortByYearStrategy() {
+        super(COMP);
     }
+
+    @Override public String getLabel() { return "По году выпуска (year)"; }
 }
