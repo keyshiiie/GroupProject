@@ -12,7 +12,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,6 +23,7 @@ class CountingCommandTest {
     private List<String> countResultStorage;
     private ByteArrayOutputStream outputStream;
     private PrintStream printStream;
+    private StrategyRegistry<CountStrategy> registry;
 
     @BeforeEach
     void setUp() {
@@ -31,14 +31,14 @@ class CountingCommandTest {
         countResultStorage = new ArrayList<>();
         outputStream = new ByteArrayOutputStream();
         printStream = new PrintStream(outputStream);
+        registry = new StrategyRegistry<>();
     }
 
     @Test
     @DisplayName("Команда возвращает корректный текст команды")
     void testGetCommandText() {
         command = new CountingCommand(
-                new StrategyRegistry<>(),
-                cars -> {},
+                registry,
                 printStream,
                 carsStorage,
                 new Scanner(System.in),
@@ -51,8 +51,7 @@ class CountingCommandTest {
     @DisplayName("Команда возвращает корректное описание")
     void testGetUserGuide() {
         command = new CountingCommand(
-                new StrategyRegistry<>(),
-                cars -> {},
+                registry,
                 printStream,
                 carsStorage,
                 new Scanner(System.in),
@@ -65,11 +64,10 @@ class CountingCommandTest {
     @DisplayName("Подсчёт когда список автомобилей пуст - сообщение об ошибке")
     void testExecuteWhenCarsEmpty() {
         command = new CountingCommand(
-                new StrategyRegistry<>(),
-                cars -> {},
+                registry,
                 printStream,
                 carsStorage,
-                new Scanner(""),
+                new Scanner(""),  // Пустой ввод
                 countResultStorage
         );
         command.execute(new String[0]);
@@ -82,11 +80,10 @@ class CountingCommandTest {
         carsStorage.add(createCar("Toyota", 150, 2020));
 
         command = new CountingCommand(
-                new StrategyRegistry<>(),
-                cars -> {},
+                registry,  // Пустой реестр - НЕТ стратегий
                 printStream,
                 carsStorage,
-                new Scanner(""),
+                new Scanner(""),  // Пустой ввод
                 countResultStorage
         );
         command.execute(new String[0]);
@@ -96,61 +93,57 @@ class CountingCommandTest {
     @Test
     @DisplayName("Подсчёт с неверным вводом (буквы вместо числа)")
     void testExecuteWithInvalidInput() {
-        StrategyRegistry<CountStrategy> registry = new StrategyRegistry<>();
+        // РЕГИСТРИРУЕМ стратегию
         registry.register(new TestCountStrategy());
-
         carsStorage.add(createCar("Toyota", 150, 2020));
 
         command = new CountingCommand(
-                registry,
-                cars -> {},
+                registry,  // ← Используем registry со стратегией
                 printStream,
                 carsStorage,
-                new Scanner("abc\n"),
+                new Scanner("abc\n"),  // ← Вводим буквы
                 countResultStorage
         );
         command.execute(new String[0]);
-        assertTrue(outputStream.toString().contains("Некорректный ввод. Введите число"));
+
+        String output = outputStream.toString();
+        assertTrue(output.contains("Некорректный ввод. Введите число"));
     }
 
     @Test
     @DisplayName("Подсчёт с недопустимым номером стратегии (выход за границы)")
     void testExecuteWithInvalidChoice() {
-        StrategyRegistry<CountStrategy> registry = new StrategyRegistry<>();
+        // РЕГИСТРИРУЕМ стратегию
         registry.register(new TestCountStrategy());
-
         carsStorage.add(createCar("Toyota", 150, 2020));
 
         command = new CountingCommand(
-                registry,
-                cars -> {},
+                registry,  // ← Используем registry со стратегией
                 printStream,
                 carsStorage,
-                new Scanner("99\n"),
+                new Scanner("99\n"),  // ← Вводим несуществующий номер
                 countResultStorage
         );
         command.execute(new String[0]);
-        assertTrue(outputStream.toString().contains("Недопустимый номер. Выберите от 1 до "));
+
+        String output = outputStream.toString();
+        assertTrue(output.contains("Недопустимый номер. Выберите от 1 до "));
     }
 
     @Test
-    @DisplayName("Успешный подсчёт и вызов Consumer (колбэка)")
-    void testExecuteSuccessAndCallback() {
-        StrategyRegistry<CountStrategy> registry = new StrategyRegistry<>();
+    @DisplayName("Успешный подсчёт и сохранение результата")
+    void testExecuteSuccess() {
+        // РЕГИСТРИРУЕМ стратегию
         registry.register(new TestCountStrategy()); // Эта стратегия вернёт 2
 
         carsStorage.add(createCar("Toyota", 150, 2020));
         carsStorage.add(createCar("Toyota", 200, 2021));
 
-        final int[] consumerCallCount = {0};
-        Consumer<List<Car>> consumer = cars -> consumerCallCount[0]++;
-
         command = new CountingCommand(
-                registry,
-                consumer,
+                registry,  // ← Используем registry со стратегией
                 printStream,
                 carsStorage,
-                new Scanner("1\n"),
+                new Scanner("1\n"),  // ← Выбираем стратегию номер 1
                 countResultStorage
         );
         command.execute(new String[0]);
@@ -158,26 +151,23 @@ class CountingCommandTest {
         String output = outputStream.toString();
         assertTrue(output.contains("Найдено элементов: 2"));
 
+        // Проверяем, что результат сохранился в хранилище
         assertEquals(1, countResultStorage.size());
         assertTrue(countResultStorage.get(0).contains("Toyota - Найдено: 2"));
-
-        assertEquals(1, consumerCallCount[0]);
     }
 
     @Test
     @DisplayName("Обработка исключения, которое выбросила стратегия")
     void testExecuteWithExceptionInCount() {
-        StrategyRegistry<CountStrategy> registry = new StrategyRegistry<>();
+        // РЕГИСТРИРУЕМ стратегию, которая выбрасывает исключение
         registry.register(new ThrowingCountStrategy());
-
         carsStorage.add(createCar("Toyota", 150, 2020));
 
         command = new CountingCommand(
-                registry,
-                cars -> {},
+                registry,  // ← Используем registry со стратегией
                 printStream,
                 carsStorage,
-                new Scanner("1\n"),
+                new Scanner("1\n"),  // ← Выбираем стратегию номер 1
                 countResultStorage
         );
         command.execute(new String[0]);
@@ -186,24 +176,128 @@ class CountingCommandTest {
         assertTrue(output.contains("Ошибка при подсчете: Ошибка БД!"));
     }
 
+    @Test
+    @DisplayName("Выбор стратегии с пустым вводом (Enter)")
+    void testExecuteWithEmptyChoice() {
+        registry.register(new TestCountStrategy());
+        carsStorage.add(createCar("Toyota", 150, 2020));
+
+        command = new CountingCommand(
+                registry,
+                printStream,
+                carsStorage,
+                new Scanner("\n"),
+                countResultStorage
+        );
+        command.execute(new String[0]);
+
+        String output = outputStream.toString();
+        assertTrue(output.contains("Выбор отменён"));
+    }
+
+    @Test
+    @DisplayName("Подсчёт по мощности с реальной стратегией")
+    void testExecuteWithRealStrategy() {
+        // Регистрируем реальную стратегию подсчета по мощности
+        registry.register(new CountByPowerTestStrategy());
+
+        carsStorage.add(createCar("BMW", 200, 2020));
+        carsStorage.add(createCar("Audi", 200, 2021));
+        carsStorage.add(createCar("Mercedes", 300, 2022));
+
+        command = new CountingCommand(
+                registry,
+                printStream,
+                carsStorage,
+                new Scanner("1\n"),
+                countResultStorage
+        );
+        command.execute(new String[0]);
+
+        String output = outputStream.toString();
+
+        // Проверяем, что вывод содержит нужные строки
+        // В зависимости от формата вывода в CountingCommand
+        assertTrue(output.contains("Найдено элементов: 2"),
+                "Ожидалось сообщение о найденных элементах");
+
+        // Проверяем, что результат сохранился в хранилище
+        assertEquals(1, countResultStorage.size());
+        assertTrue(countResultStorage.get(0).contains("200 - Найдено: 2"),
+                "Результат должен содержать мощность и количество");
+    }
+    // === ВНУТРЕННИЕ КЛАССЫ ДЛЯ ТЕСТОВ ===
+
+    /**
+     * Тестовая стратегия, которая всегда возвращает 2
+     */
     private static class TestCountStrategy implements CountStrategy {
         @Override
-        public int count(List<Car> cars) { return 2; }
+        public int count(List<Car> cars) {
+            return 2;
+        }
+
         @Override
-        public String getLabel() { return "Тестовая стратегия"; }
+        public String getLabel() {
+            return "Тестовая стратегия";
+        }
+
         @Override
-        public String getSearchValue() { return "Toyota"; }
+        public String getSearchValue() {
+            return "Toyota";
+        }
     }
 
+    /**
+     * Стратегия, которая выбрасывает исключение
+     */
     private static class ThrowingCountStrategy implements CountStrategy {
         @Override
-        public int count(List<Car> cars) { throw new RuntimeException("Ошибка БД!"); }
+        public int count(List<Car> cars) {
+            throw new RuntimeException("Ошибка БД!");
+        }
+
         @Override
-        public String getLabel() { return "Падающая стратегия"; }
+        public String getLabel() {
+            return "Падающая стратегия";
+        }
+
         @Override
-        public String getSearchValue() { return "None"; }
+        public String getSearchValue() {
+            return "None";
+        }
     }
 
+    /**
+     * Стратегия для теста подсчета по мощности
+     */
+    private static class CountByPowerTestStrategy implements CountStrategy {
+        @Override
+        public int count(List<Car> cars) {
+            int targetPower = 200;
+            int count = 0;
+            for (Car car : cars) {
+                if (car.getPower() == targetPower) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        @Override
+        public String getLabel() {
+            return "Подсчет по мощности";
+        }
+
+        @Override
+        public String getSearchValue() {
+            return "200";
+        }
+    }
+
+    /**
+     * Вспомогательный метод для создания автомобиля
+     */
     private Car createCar(String model, int power, int year) {
         return new Car.Builder()
                 .setModel(model)
