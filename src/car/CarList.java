@@ -1,16 +1,14 @@
 package car;
 
-import java.util.ArrayList;
-import java.util.List;
+import utils.LinkedList;
 
-public class CarList extends ArrayList<Car> {
+public class CarList extends LinkedList<Car> {
     public CarList() {
         super();
     }
-    public CarList(int initialCapacity) {
-        super(initialCapacity);
-    }
-    public CarList(List<Car> cars) {
-        super(cars);
+
+    public CarList(java.util.Collection<Car> cars) {
+        super();
+        this.addAll(cars);
     }
 }

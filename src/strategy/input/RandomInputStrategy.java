@@ -31,7 +31,15 @@ public class RandomInputStrategy implements InputStrategy {
             while(randomCars.size()<size);
             Collections.shuffle(randomCars);
             int actualSize = Math.min(size, randomCars.size());
-            return new CarList(randomCars.subList(0, actualSize));
+            CarList carList = randomCars.stream()
+                    .limit(actualSize)
+                    .collect(
+                            CarList::new,
+                            CarList::add,
+                            CarList::addAll
+                    );
+
+            return carList;
         } catch(Exception e){
             System.err.println("Ошибка при чтении списка автомобилей: " + e.getMessage());
             return new CarList(new ArrayList<>());

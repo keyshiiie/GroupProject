@@ -1,6 +1,7 @@
 package count;
 
 import car.Car;
+import car.CarList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -9,8 +10,6 @@ import strategy.count.BaseCountStrategy;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.function.Predicate;
 
@@ -19,13 +18,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Тестирование абстрактного класса BaseCountStrategy")
 class BaseCountStrategyTest {
 
-    private List<Car> cars;
+    private CarList cars;
     private ByteArrayOutputStream outputStream;
     private PrintStream originalOut;
 
     @BeforeEach
     void setUp() {
-        cars = new ArrayList<>();
+        cars = new CarList();
         cars.add(createCar("Toyota Camry", 150, 2020));
         cars.add(createCar("BMW X5", 200, 2021));
         cars.add(createCar("Audi A4", 180, 2022));
@@ -58,7 +57,7 @@ class BaseCountStrategyTest {
         Scanner scanner = new Scanner("test\n");
         TestCountStrategy strategy = new TestCountStrategy(scanner);
 
-        int result = strategy.count(new ArrayList<>());
+        int result = strategy.count(new CarList());
 
         assertEquals(0, result);
         assertTrue(outputStream.toString().contains("Список автомобилей пуст"));

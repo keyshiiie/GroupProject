@@ -1,4 +1,4 @@
-import car.Car;
+import car.CarList;
 import mainMenu.*;
 import registry.StrategyRegistry;
 import strategy.count.CountByModelStrategy;
@@ -11,7 +11,6 @@ import strategy.export.ExportStrategy;
 import strategy.input.ConsoleInputStrategy;
 import strategy.input.FileInputStrategy;
 import strategy.input.InputStrategy;
-//import strategy.input.RandomInputStrategy;
 import strategy.input.RandomInputStrategy;
 import strategy.sort.*;
 import utils.CarRandomList;
@@ -36,7 +35,7 @@ public class Main {
         sortRegistry.register(new SortByYearEvenStrategy());
         sortRegistry.register(new SortByAllFieldsStrategy());
 
-        var carsStorage = new ArrayList<Car>();
+        CarList carsStorage = new CarList();
         var countResultStorage = new ArrayList<String>();
 
 

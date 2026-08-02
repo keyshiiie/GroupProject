@@ -33,7 +33,14 @@ public class FileInputStrategy implements InputStrategy {
             System.out.print("Введите количество автомобилей для загрузки: ");
             int size = Integer.parseInt(scanner.nextLine().trim());
             if(size <=0) throw new RuntimeException("размер должен быть больше 0");
-            return new CarList(readCarsFromFile(filename, size));
+            List<Car> carsFromFile = readCarsFromFile(filename, size);
+            CarList carList = carsFromFile.stream()
+                    .collect(
+                            CarList::new,
+                            CarList::add,
+                            CarList::addAll
+                    );
+            return carList;
         } catch (Exception e) {
             System.err.println("Ошибка при чтении файла: " + e.getMessage());
             return new CarList(new ArrayList<>());

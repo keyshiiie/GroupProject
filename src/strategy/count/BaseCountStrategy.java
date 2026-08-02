@@ -1,6 +1,7 @@
 package strategy.count;
 
 import car.Car;
+import car.CarList;
 import utils.MultithreadedCounter;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public abstract class BaseCountStrategy implements CountStrategy {
     }
 
     @Override
-    public int count(List<Car> cars) {
+    public int count(CarList cars) {
         if (cars == null || cars.isEmpty()) {
             System.out.println("Список автомобилей пуст.");
             return 0;

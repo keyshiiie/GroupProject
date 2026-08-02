@@ -1,6 +1,7 @@
 package mainMenu;
 
 import car.Car;
+import car.CarList;
 import mainMenu.ExportCommand;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +24,7 @@ class ExportCommandTest {
     private final PrintStream originalOut = System.out;
     private ByteArrayInputStream inContent;
 
-    private List<Car> carsStorage;
+    private CarList carsStorage;
     private ArrayList<String> countResultStorage;
     private Scanner scanner;
     private StrategyRegistry<ExportStrategy> strategyRegistry;
@@ -92,7 +93,7 @@ class ExportCommandTest {
     void setUp() {
         System.setOut(new PrintStream(outContent));
 
-        carsStorage = new ArrayList<>();
+        carsStorage = new CarList();
         countResultStorage = new ArrayList<>();
         strategyRegistry = new StrategyRegistry<>();
         scanner = new Scanner(System.in);

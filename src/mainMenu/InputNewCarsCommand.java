@@ -1,6 +1,7 @@
 package mainMenu;
 
 import car.Car;
+import car.CarList;
 import registry.StrategyRegistry;
 import strategy.input.InputStrategy;
 
@@ -8,18 +9,19 @@ import java.io.PrintStream;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
 public class InputNewCarsCommand implements ConsoleCommand {
 
     private final StrategyRegistry<InputStrategy> inputRegistry;
-    private final Consumer<List<Car>> onCarsLoaded;
+    private final Consumer<CarList> onCarsLoaded;
     private final PrintStream out;
 
     private final Scanner scanner;
 
     public InputNewCarsCommand(
             StrategyRegistry<InputStrategy> inputRegistry,
-            Consumer<List<Car>> onCarsLoaded,
+            Consumer<CarList> onCarsLoaded,
             PrintStream out,
             Scanner scanner
     ) {
@@ -48,10 +50,8 @@ public class InputNewCarsCommand implements ConsoleCommand {
         }
 
         out.println("Выберите источник данных:");
-        for (int i = 0; i < strategies.size(); i++) {
-            var s = strategies.get(i);
-            out.printf("%d. %s%n", i + 1, s.getLabel());
-        }
+        IntStream.range(0, strategies.size())
+                .forEach(i -> out.printf("%d. %s%n", i + 1, strategies.get(i).getLabel()));
         out.print("Ваш выбор: ");
 
         String line = scanner.nextLine().strip();
@@ -76,9 +76,9 @@ public class InputNewCarsCommand implements ConsoleCommand {
         var selected = strategies.get(idx);
         out.printf("Выбран источник: %s%n", selected.getLabel());
 
-        List<Car> cars;
+        CarList cars;
         try {
-            cars = ((InputStrategy)selected).setCars();
+            cars = selected.setCars();
         } catch (Exception e) {
             out.println("Ошибка при получении данных: " + e.getMessage());
             return;

@@ -35,7 +35,11 @@ public class ConsoleInputStrategy implements InputStrategy {
             }
 
             CarList cars = tempCars.stream()
-                    .collect(CarList::new, CarList::add, CarList::addAll);
+                    .collect(
+                            CarList::new,
+                            CarList::add,
+                            CarList::addAll
+                    );
 
             return cars;
 

@@ -1,12 +1,15 @@
 package mainMenu;
 
 import car.Car;
+import car.CarList;
+
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class OutputCarsCommand implements ConsoleCommand {
-    private final List<Car> carsStorage;
+    private final CarList carsStorage;
 
-    public OutputCarsCommand(List<Car> carsStorage) {
+    public OutputCarsCommand(CarList carsStorage) {
         this.carsStorage = carsStorage;
     }
 
@@ -29,16 +32,16 @@ public class OutputCarsCommand implements ConsoleCommand {
 
         System.out.println("--- Список автомобилей ---");
 
-        for (int i = 0; i < carsStorage.size(); i++) {
-            Car car = carsStorage.get(i);
-
-            System.out.printf("%d. Модель: %s, Год: %d, Мощность: %d л.с.%n",
-                    i + 1,
-                    car.getModel(),
-                    car.getYear(),
-                    car.getPower()
-            );
-        }
+        IntStream.range(0, carsStorage.size())
+                .forEach(i -> {
+                    Car car = carsStorage.get(i);
+                    System.out.printf("%d. Модель: %s, Год: %d, Мощность: %d л.с.%n",
+                            i + 1,
+                            car.getModel(),
+                            car.getYear(),
+                            car.getPower()
+                    );
+                });
 
         System.out.println("--------------------------");
     }

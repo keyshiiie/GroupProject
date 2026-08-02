@@ -1,26 +1,25 @@
 package export;
 
 import car.Car;
+import car.CarList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.SortedChecker;
 
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SortedCheckerTest {
 
-    private List<Car> cars;
+    private CarList cars;
     private Comparator<Car> byModelComparator;
     private Comparator<Car> byYearComparator;
     private Comparator<Car> byPowerComparator;
 
     @BeforeEach
     void setUp() {
-        cars = new ArrayList<>();
+        cars = new CarList();
 
         byModelComparator = Comparator.comparing(Car::getModel);
         byYearComparator = Comparator.comparingInt(Car::getYear);
@@ -42,7 +41,7 @@ class SortedCheckerTest {
 
     @Test
     void isSorted_ShouldReturnTrue_WhenListIsEmpty() {
-        assertTrue(SortedChecker.isSorted(new ArrayList<>(), byModelComparator));
+        assertTrue(SortedChecker.isSorted(new CarList(), byModelComparator));
     }
 
     @Test
@@ -118,7 +117,7 @@ class SortedCheckerTest {
     void isSorted_ShouldReturnTrue_WhenComparatorIsReversedAndListIsSortedDescending() {
         Comparator<Car> reverseModelComparator = byModelComparator.reversed();
 
-        List<Car> descendingCars = new ArrayList<>();
+        CarList descendingCars = new CarList();
         descendingCars.add(createCar("Toyota Camry", 2022, 250));
         descendingCars.add(createCar("BMW 3 Series", 2021, 300));
         descendingCars.add(createCar("Audi A4", 2020, 200));
@@ -130,7 +129,7 @@ class SortedCheckerTest {
     void isSorted_ShouldReturnFalse_WhenListIsNotSortedDescending() {
         Comparator<Car> reverseModelComparator = byModelComparator.reversed();
 
-        List<Car> notDescendingCars = new ArrayList<>();
+        CarList notDescendingCars = new CarList();
         notDescendingCars.add(createCar("Audi A4", 2020, 200));
         notDescendingCars.add(createCar("Toyota Camry", 2022, 250));
         notDescendingCars.add(createCar("BMW 3 Series", 2021, 300));
@@ -181,12 +180,12 @@ class SortedCheckerTest {
 
     @Test
     void isSorted_ShouldReturnTrue_WhenListIsEmptyAndComparatorIsNull() {
-        assertTrue(SortedChecker.isSorted(new ArrayList<>(), null));
+        assertTrue(SortedChecker.isSorted(new CarList(), null));
     }
 
     @Test
     void isSorted_ShouldReturnTrue_WhenListHasOneElementAndComparatorIsNull() {
-        List<Car> singleCarList = new ArrayList<>();
+        CarList singleCarList = new CarList();
         singleCarList.add(createCar("Toyota Camry", 2020, 200));
         assertTrue(SortedChecker.isSorted(singleCarList, null));
     }
@@ -202,7 +201,7 @@ class SortedCheckerTest {
 
     @Test
     void isSorted_ShouldWorkWithRealWorldData() {
-        List<Car> cars = new ArrayList<>();
+        CarList cars = new CarList();
         cars.add(createCar("Honda Accord", 2019, 192));
         cars.add(createCar("Honda Accord", 2020, 192));
         cars.add(createCar("Honda Accord", 2021, 252));

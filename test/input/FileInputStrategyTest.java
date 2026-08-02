@@ -1,13 +1,13 @@
 package input;
 
 import car.Car;
+import car.CarList;
 import org.junit.jupiter.api.Test;
 import strategy.input.FileInputStrategy;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +31,7 @@ class FileInputStrategyTest {
         Scanner scanner = new Scanner("cars.txt\n2\n");
         FileInputStrategy strategy = new FileInputStrategy(scanner);
 
-        List<Car> cars = strategy.setCars();
+        CarList cars = strategy.setCars();
 
         assertEquals(2, cars.size());
         assertEquals("Mercedes-Benz S-Class", cars.get(0).getModel());
@@ -45,7 +45,7 @@ class FileInputStrategyTest {
     void shouldReturnEmptyListOnFileNotFound() {
         Scanner scanner = new Scanner("missing.txt\n5\n");
         FileInputStrategy strategy = new FileInputStrategy(scanner);
-        List<Car> cars = strategy.setCars();
+        CarList cars = strategy.setCars();
         assertTrue(cars.isEmpty());
     }
 
@@ -58,7 +58,7 @@ class FileInputStrategyTest {
         }
         Scanner scanner = new Scanner("valid.txt\nnotANumber\n");
         FileInputStrategy strategy = new FileInputStrategy(scanner);
-        List<Car> cars = strategy.setCars();
+        CarList cars = strategy.setCars();
         assertTrue(cars.isEmpty());
         Files.deleteIfExists(Path.of(System.getProperty("user.dir")).resolve("valid.txt"));
     }
@@ -68,7 +68,7 @@ class FileInputStrategyTest {
         createFileInProjectRoot("Wrong format", "bad.txt");
         Scanner scanner = new Scanner("bad.txt\n5\n");
         FileInputStrategy strategy = new FileInputStrategy(scanner);
-        List<Car> cars = strategy.setCars();
+        CarList cars = strategy.setCars();
         assertTrue(cars.isEmpty());
         Files.deleteIfExists(Path.of(System.getProperty("user.dir")).resolve("bad.txt"));
     }

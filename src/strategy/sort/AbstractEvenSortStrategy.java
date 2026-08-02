@@ -1,7 +1,7 @@
 package strategy.sort;
 
-import utils.QuickSortUtil;
 import car.Car;
+import car.CarList;
 import utils.QuickSortUtil;
 
 import java.util.*;
@@ -15,14 +15,14 @@ public abstract class AbstractEvenSortStrategy extends AbstractSortStrategy {
     protected abstract boolean isEven(Car car);
 
     @Override
-    public List<Car> sort(List<Car> cars) {
-        cars = handleNullOrEmpty(cars);
-
-        if (cars.isEmpty()) {
+    public List<Car> sort(CarList cars) {
+        if (cars == null || cars.isEmpty()) {
             return new ArrayList<>();
         }
 
-        List<Car> result = new ArrayList<>(cars);
+        List<Car> result = new ArrayList<>();
+        result.addAll(cars);
+
         List<Integer> evenIndices = new ArrayList<>();
         List<Car> evenCars = new ArrayList<>();
 

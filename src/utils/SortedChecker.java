@@ -1,12 +1,13 @@
 package utils;
 
 import car.Car;
+import car.CarList;
 
 import java.util.Comparator;
 import java.util.List;
 
 public class SortedChecker {
-    public static boolean isSorted(List<Car> cars, Comparator<Car> comparator) {
+    public static boolean isSorted(CarList cars, Comparator<Car> comparator) {
         if (cars == null || cars.size() <= 1) {
             return true;
         }

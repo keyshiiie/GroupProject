@@ -1,25 +1,25 @@
 package mainMenu;
 
-import car.Car;
+import car.CarList;
 import registry.StrategyRegistry;
 import strategy.count.CountStrategy;
 
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
 public class CountingCommand implements ConsoleCommand {
     private final StrategyRegistry<CountStrategy> countRegistry;
     private final Scanner scanner;
     private final PrintStream out;
-    private final List<Car> carsStorage;
+    private final CarList carsStorage;
     private final List<String> countResultStorage;
 
     public CountingCommand(
             StrategyRegistry<CountStrategy> countRegistry,
             PrintStream out,
-            List<Car> carsStorage,
+            CarList carsStorage,
             Scanner scanner,
             List<String> countResultStorage
     ) {
@@ -57,10 +57,9 @@ public class CountingCommand implements ConsoleCommand {
         out.println("Всего автомобилей: " + carsStorage.size());
 
         out.println("\nВыберите вид подсчета:");
-        for (int i = 0; i < strategies.size(); i++) {
-            var s = strategies.get(i);
-            out.printf("%d. %s%n", i + 1, s.getLabel());
-        }
+        IntStream.range(0, strategies.size())
+                .forEach(i -> out.printf("%d. %s%n", i + 1, strategies.get(i).getLabel()));
+
         out.print("Ваш выбор: ");
 
         String line = scanner.nextLine().strip();

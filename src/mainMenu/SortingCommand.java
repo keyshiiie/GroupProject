@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import car.Car;
+import car.CarList;
 import registry.StrategyRegistry;
 import strategy.NamedStrategy;
 import strategy.sort.SortStrategy;
@@ -15,7 +16,7 @@ public class SortingCommand implements ConsoleCommand {
 
     private final StrategyRegistry<SortStrategy> sortRegistry;
     private final Consumer<List<Car>> onSorted;
-    private final Supplier<List<Car>> currentCarsSupplier;
+    private final Supplier<CarList> currentCarsSupplier;
     private final PrintStream out;
 
     private final Scanner scanner;
@@ -23,7 +24,7 @@ public class SortingCommand implements ConsoleCommand {
     public SortingCommand(
             StrategyRegistry<SortStrategy> sortRegistry,
             Consumer<List<Car>> onSorted,
-            Supplier<List<Car>> currentCarsSupplier,
+            Supplier<CarList> currentCarsSupplier,
             PrintStream out,
             Scanner scanner
     ) {
@@ -46,7 +47,7 @@ public class SortingCommand implements ConsoleCommand {
 
     @Override
     public void execute(String[] args) {
-        var cars = currentCarsSupplier.get();
+        CarList cars = currentCarsSupplier.get();
 
         if (cars == null || cars.isEmpty()) {
             out.println("Список автомобилей пуст. Сначала загрузите данные.");
@@ -66,7 +67,7 @@ public class SortingCommand implements ConsoleCommand {
 
         for (int i = 0; i < strategies.size(); i++) {
             var s = strategies.get(i);
-            out.printf("%d. %s%n", i + 1, ((NamedStrategy)s).getLabel());
+            out.printf("%d. %s%n", i + 1, s.getLabel());
         }
 
         out.print("Ваш выбор: ");

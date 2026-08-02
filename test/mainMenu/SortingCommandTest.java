@@ -1,6 +1,7 @@
 package mainMenu;
 
 import car.Car;
+import car.CarList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,16 +22,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class SortingCommandTest {
 
     private SortingCommand command;
-    private List<Car> carsStorage;
-    private List<Car> sortedCarsStorage;
+    private CarList carsStorage;
+    private CarList sortedCarsStorage;
     private ByteArrayOutputStream outputStream;
     private PrintStream printStream;
     private StrategyRegistry<SortStrategy> registry;
 
     @BeforeEach
     void setUp() {
-        carsStorage = new ArrayList<>();
-        sortedCarsStorage = new ArrayList<>();
+        carsStorage = new CarList();
+        sortedCarsStorage = new CarList();
         outputStream = new ByteArrayOutputStream();
         printStream = new PrintStream(outputStream);
         registry = new StrategyRegistry<>();
@@ -263,7 +264,8 @@ class SortingCommandTest {
         carsStorage.add(car1);
         carsStorage.add(car2);
 
-        List<Car> originalListCopy = new ArrayList<>(carsStorage);
+        CarList originalListCopy = new CarList();
+        originalListCopy.addAll(carsStorage);
 
         command = new SortingCommand(
                 registry,
@@ -308,15 +310,18 @@ class SortingCommandTest {
         assertEquals(1, consumerCallCount[0]);
         assertEquals(2, sortedCarsStorage.size());
 
-        // Проверяем что отсортированный список содержит те же элементы
         assertTrue(sortedCarsStorage.stream().anyMatch(c -> c.getModel().equals("Toyota")));
         assertTrue(sortedCarsStorage.stream().anyMatch(c -> c.getModel().equals("BMW")));
     }
 
     private static class TestSortStrategy implements SortStrategy {
         @Override
-        public List<Car> sort(List<Car> cars) {
-            return new ArrayList<>(cars);
+        public List<Car> sort(CarList cars) {
+            List<Car> result = new ArrayList<>();
+            for (int i = 0; i < cars.size(); i++) {
+                result.add(cars.get(i));
+            }
+            return result;
         }
 
         @Override
@@ -327,8 +332,12 @@ class SortingCommandTest {
 
     private static class AnotherSortStrategy implements SortStrategy {
         @Override
-        public List<Car> sort(List<Car> cars) {
-            return new ArrayList<>(cars);
+        public List<Car> sort(CarList cars) {
+            List<Car> result = new ArrayList<>();
+            for (int i = 0; i < cars.size(); i++) {
+                result.add(cars.get(i));
+            }
+            return result;
         }
 
         @Override
@@ -339,26 +348,13 @@ class SortingCommandTest {
 
     private static class ThrowingSortStrategy implements SortStrategy {
         @Override
-        public List<Car> sort(List<Car> cars) {
+        public List<Car> sort(CarList cars) {
             throw new RuntimeException("Ошибка сортировки!");
         }
 
         @Override
         public String getLabel() {
             return "Падающая сортировка";
-        }
-    }
-
-    private static class CheckCopySortStrategy implements SortStrategy {
-        @Override
-        public List<Car> sort(List<Car> cars) {
-            assertNotSame(cars, cars); // Проверяем что это копия
-            return new ArrayList<>(cars);
-        }
-
-        @Override
-        public String getLabel() {
-            return "Проверка копии";
         }
     }
 

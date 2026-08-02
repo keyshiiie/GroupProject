@@ -1,6 +1,7 @@
 package input;
 
 import car.Car;
+import car.CarList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,7 +9,6 @@ import strategy.input.RandomInputStrategy;
 import utils.CarRandomList;
 
 import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,14 +35,14 @@ class RandomInputStrategyTest {
         Scanner scanner = new Scanner(input);
         RandomInputStrategy strategy = new RandomInputStrategy(scanner);
 
-        List<Car> result = strategy.setCars();
+        CarList result = strategy.setCars();
         assertEquals(500, result.size());
 
-        for (Car car : result) {
+        for (int i = 0; i < result.size(); i++) {
+            Car car = result.get(i);
             assertTrue(car.getPower() >= 20 && car.getPower() <= 1000);
             assertTrue(car.getYear() >= 1950 && car.getYear() <= 2026);
         }
-
     }
 
     @Test
@@ -53,7 +53,7 @@ class RandomInputStrategyTest {
         Scanner scanner = new Scanner(input);
         RandomInputStrategy strategy = new RandomInputStrategy(scanner);
 
-        List<Car> result = strategy.setCars();
+        CarList result = strategy.setCars();
         assertEquals(2000000, result.size());
     }
 
@@ -63,7 +63,7 @@ class RandomInputStrategyTest {
         Scanner scanner = new Scanner(input);
         RandomInputStrategy strategy = new RandomInputStrategy(scanner);
 
-        List<Car> result = strategy.setCars();
+        CarList result = strategy.setCars();
         assertTrue(result.isEmpty());
     }
 
@@ -73,7 +73,7 @@ class RandomInputStrategyTest {
         Scanner scanner = new Scanner(input);
         RandomInputStrategy strategy = new RandomInputStrategy(scanner);
 
-        List<Car> result = strategy.setCars();
+        CarList result = strategy.setCars();
         assertTrue(result.isEmpty());
     }
 

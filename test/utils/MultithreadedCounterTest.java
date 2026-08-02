@@ -1,12 +1,11 @@
 package utils;
 
 import car.Car;
+import car.CarList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,13 +13,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("MultithreadedCounter - многопоточный подсчёт элементов")
 class MultithreadedCounterTest {
 
-    private List<Car> cars;
-    private List<Car> emptyCars;
-    private List<Car> nullCars;
+    private CarList cars;
+    private CarList emptyCars;
+    private CarList nullCars;
 
     @BeforeEach
     void setUp() {
-        cars = new ArrayList<>();
+        cars = new CarList();
         cars.add(new Car.Builder()
                 .setPower(150)
                 .setModel("Toyota Camry")
@@ -52,7 +51,7 @@ class MultithreadedCounterTest {
                 .setYear(2021)
                 .build());
 
-        emptyCars = new ArrayList<>();
+        emptyCars = new CarList();
         nullCars = null;
     }
 
@@ -188,7 +187,7 @@ class MultithreadedCounterTest {
     @Test
     @DisplayName("Подсчёт на большом списке (проверка многопоточности)")
     void testCountLargeList() {
-        List<Car> largeList = new ArrayList<>();
+        CarList largeList = new CarList();
         for (int i = 0; i < 1000; i++) {
             largeList.add(new Car.Builder()
                     .setPower(100 + i % 10)
@@ -200,14 +199,20 @@ class MultithreadedCounterTest {
         Predicate<Car> powerGreater150 = car -> car.getPower() > 150;
         int result = MultithreadedCounter.countCars(largeList, powerGreater150);
 
-        long expected = largeList.stream().filter(powerGreater150).count();
+        // Подсчитываем ожидаемое количество вручную
+        int expected = 0;
+        for (int i = 0; i < largeList.size(); i++) {
+            if (powerGreater150.test(largeList.get(i))) {
+                expected++;
+            }
+        }
         assertEquals(expected, result, "Многопоточный подсчёт должен совпадать с последовательным");
     }
 
     @Test
     @DisplayName("Подсчёт на списке с одним элементом")
     void testCountSingleElement() {
-        List<Car> singleCar = new ArrayList<>();
+        CarList singleCar = new CarList();
         singleCar.add(new Car.Builder()
                 .setPower(150)
                 .setModel("Toyota")
@@ -223,7 +228,7 @@ class MultithreadedCounterTest {
     @Test
     @DisplayName("Подсчёт на списке с одним элементом, не соответствующим условию")
     void testCountSingleElementNoMatch() {
-        List<Car> singleCar = new ArrayList<>();
+        CarList singleCar = new CarList();
         singleCar.add(new Car.Builder()
                 .setPower(150)
                 .setModel("Toyota")

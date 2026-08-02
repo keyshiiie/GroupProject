@@ -1,6 +1,7 @@
 package utils;
 
 import car.Car;
+import car.CarList;
 
 import java.util.Comparator;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.function.Predicate;
 
 public class MultithreadedCounter {
 
-    public static int countCars(List<Car> cars, Predicate<Car> condition) {
+    public static int countCars(CarList cars, Predicate<Car> condition) {
         if (cars == null || cars.isEmpty()) {
             return 0;
         }

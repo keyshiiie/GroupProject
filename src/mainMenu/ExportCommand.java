@@ -1,6 +1,7 @@
 package mainMenu;
 
 import car.Car;
+import car.CarList;
 import comparators.CarModelComparator;
 import comparators.CarPowerComparator;
 import comparators.CarYearComparator;
@@ -14,7 +15,7 @@ import static utils.SortedChecker.isSorted;
 
 public class ExportCommand implements ConsoleCommand {
     private final StrategyRegistry<ExportStrategy> exportStrategyRegistry;
-    private final List<Car> carsStorage;
+    private final CarList carsStorage;
     private final List<String> countResultStorage;
     private final Scanner scanner;
     private final PrintStream out;
@@ -23,7 +24,7 @@ public class ExportCommand implements ConsoleCommand {
     private final CarModelComparator modelComparator = new CarModelComparator();
     private final CarYearComparator yearComparator = new CarYearComparator();
 
-    public ExportCommand(StrategyRegistry<ExportStrategy> exportStrategyRegistry, List<Car> carsStorage,
+    public ExportCommand(StrategyRegistry<ExportStrategy> exportStrategyRegistry, CarList carsStorage,
                          ArrayList<String> countResultStorage, Scanner scanner, PrintStream out) {
         this.exportStrategyRegistry = exportStrategyRegistry;
         this.carsStorage = carsStorage;
@@ -131,7 +132,7 @@ public class ExportCommand implements ConsoleCommand {
         String label = selected.getLabel();
 
         if ("Список машин".equals(label)) {
-            return carsStorage;
+            return (List<?>) carsStorage;  // Явное приведение
         } else if ("Результаты поиска".equals(label)) {
             if (countResultStorage.isEmpty()) {
                 out.println("Нет результатов поиска для сохранения.");
@@ -152,14 +153,8 @@ public class ExportCommand implements ConsoleCommand {
                 yearComparator
         );
 
-        for (Comparator<Car> comparator : comparators) {
-            if (isSorted(carsStorage, comparator)) {
-                out.println("Массив отсортирован (по одному из критериев)");
-                return true;
-            }
-        }
-
-        return false;
+        return comparators.stream()
+                .anyMatch(comp -> isSorted(carsStorage, comp));
     }
 
     private boolean confirmExportUnsorted() {

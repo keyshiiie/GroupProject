@@ -1,16 +1,14 @@
 package sort;
 
 import car.Car;
+import car.CarList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import strategy.*;
 import strategy.sort.SortByModelStrategy;
 import strategy.sort.SortByPowerStrategy;
 import strategy.sort.SortByYearStrategy;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,11 +27,10 @@ class SortStrategyTest {
 
     @Test
     void sortByModel_normal() {
-        List<Car> cars = Arrays.asList(
-                new Car.Builder().setModel("Volvo XC90").setPower(150).setYear(2018).build(),
-                new Car.Builder().setModel("Audi a3").setPower(200).setYear(2020).build(),
-                new Car.Builder().setModel("BMW 530d").setPower(180).setYear(2019).build()
-        );
+        CarList cars = new CarList();
+        cars.add(new Car.Builder().setModel("Volvo XC90").setPower(150).setYear(2018).build());
+        cars.add(new Car.Builder().setModel("Audi a3").setPower(200).setYear(2020).build());
+        cars.add(new Car.Builder().setModel("BMW 530d").setPower(180).setYear(2019).build());
 
         List<Car> sorted = modelStrategy.sort(cars);
 
@@ -44,11 +41,10 @@ class SortStrategyTest {
 
     @Test
     void sortByPower_normal() {
-        List<Car> cars = Arrays.asList(
-                new Car.Builder().setModel("AAAAA").setPower(200).setYear(2010).build(),
-                new Car.Builder().setModel("BBBBB").setPower(100).setYear(2015).build(),
-                new Car.Builder().setModel("CCCCC").setPower(150).setYear(2012).build()
-        );
+        CarList cars = new CarList();
+        cars.add(new Car.Builder().setModel("AAAAA").setPower(200).setYear(2010).build());
+        cars.add(new Car.Builder().setModel("BBBBB").setPower(100).setYear(2015).build());
+        cars.add(new Car.Builder().setModel("CCCCC").setPower(150).setYear(2012).build());
 
         List<Car> sorted = powerStrategy.sort(cars);
 
@@ -59,11 +55,10 @@ class SortStrategyTest {
 
     @Test
     void sortByYear_normal() {
-        List<Car> cars = Arrays.asList(
-                new Car.Builder().setModel("XXXXX").setPower(120).setYear(2022).build(),
-                new Car.Builder().setModel("YYYYY").setPower(130).setYear(2018).build(),
-                new Car.Builder().setModel("ZZZZZ").setPower(140).setYear(2020).build()
-        );
+        CarList cars = new CarList();
+        cars.add(new Car.Builder().setModel("XXXXX").setPower(120).setYear(2022).build());
+        cars.add(new Car.Builder().setModel("YYYYY").setPower(130).setYear(2018).build());
+        cars.add(new Car.Builder().setModel("ZZZZZ").setPower(140).setYear(2020).build());
 
         List<Car> sorted = yearStrategy.sort(cars);
 
@@ -74,7 +69,7 @@ class SortStrategyTest {
 
     @Test
     void sort_emptyList_returnsEmpty() {
-        List<Car> empty = Collections.emptyList();
+        CarList empty = new CarList();
 
         assertTrue(modelStrategy.sort(empty).isEmpty());
         assertTrue(powerStrategy.sort(empty).isEmpty());
