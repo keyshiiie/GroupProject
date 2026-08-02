@@ -1,5 +1,6 @@
 package strategy.count;
 
+import Utils.LinkedList;
 import car.Car;
 import utils.MultithreadedCounter;
 
@@ -16,7 +17,7 @@ public abstract class BaseCountStrategy implements CountStrategy {
     }
 
     @Override
-    public int count(List<Car> cars) {
+    public int count(LinkedList<Car> cars) {
         if (cars == null || cars.isEmpty()) {
             System.out.println("Список автомобилей пуст.");
             return 0;

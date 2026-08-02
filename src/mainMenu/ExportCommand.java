@@ -6,14 +6,15 @@ import registry.StrategyRegistry;
 import strategy.export.ExportStrategy;
 import java.io.PrintStream;
 import java.util.*;
+import Utils.LinkedList;
 
+import static Utils.SortedChecker.isSorted;
 import static export.FileManager.getFileName;
-import static utils.SortedChecker.isSorted;
 
 public class ExportCommand implements ConsoleCommand {
     private final StrategyRegistry<ExportStrategy> exportStrategyRegistry;
-    private final List<Car> carsStorage;
-    private final List<String> countResultStorage;
+    private final LinkedList<Car> carsStorage;
+    private final LinkedList<String> countResultStorage;
     private final Scanner scanner;
     private final PrintStream out;
 
@@ -23,8 +24,8 @@ public class ExportCommand implements ConsoleCommand {
     private final CarYearComparator yearComparator = new CarYearComparator();
     private final CarYearEvenComparator yearEvenComparator = new CarYearEvenComparator();
 
-    public ExportCommand(StrategyRegistry<ExportStrategy> exportStrategyRegistry, List<Car> carsStorage,
-                         ArrayList<String> countResultStorage, Scanner scanner, PrintStream out) {
+    public ExportCommand(StrategyRegistry<ExportStrategy> exportStrategyRegistry, LinkedList<Car> carsStorage,
+                         LinkedList<String> countResultStorage, Scanner scanner, PrintStream out) {
         this.exportStrategyRegistry = exportStrategyRegistry;
         this.carsStorage = carsStorage;
         this.countResultStorage = countResultStorage;
@@ -70,7 +71,7 @@ public class ExportCommand implements ConsoleCommand {
 
         out.printf("Выбранный экспорт: %s%n", selected.getLabel());
 
-        List<?> data = getDataForExport(selected);
+        LinkedList data = getDataForExport(selected);
         if (data == null) {
             return;
         }
@@ -133,16 +134,18 @@ public class ExportCommand implements ConsoleCommand {
     /**
      * Получение данных для экспорта
      */
-    private List<?> getDataForExport(ExportStrategy selected) {
+    private LinkedList getDataForExport(ExportStrategy selected) {
         String label = selected.getLabel();
 
         if ("Список машин".equals(label)) {
             return carsStorage;
+
         } else if ("Результаты поиска".equals(label)) {
             if (countResultStorage.isEmpty()) {
                 out.println("Нет результатов поиска для сохранения.");
                 return null;
             }
+
             return countResultStorage;
         } else {
             out.println("Неизвестный тип данных для экспорта.");

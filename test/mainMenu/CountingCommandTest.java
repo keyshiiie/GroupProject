@@ -1,5 +1,6 @@
 package mainMenu;
 
+import Utils.LinkedList;
 import car.Car;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,15 +21,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class CountingCommandTest {
 
     private CountingCommand command;
-    private List<Car> carsStorage;
-    private List<String> countResultStorage;
+    private LinkedList<Car> carsStorage;
+    private LinkedList<String> countResultStorage;
     private ByteArrayOutputStream outputStream;
     private PrintStream printStream;
 
     @BeforeEach
     void setUp() {
-        carsStorage = new ArrayList<>();
-        countResultStorage = new ArrayList<>();
+        carsStorage = new LinkedList<>();
+        countResultStorage = new LinkedList<>();
         outputStream = new ByteArrayOutputStream();
         printStream = new PrintStream(outputStream);
     }
@@ -188,7 +189,7 @@ class CountingCommandTest {
 
     private static class TestCountStrategy implements CountStrategy {
         @Override
-        public int count(List<Car> cars) { return 2; }
+        public int count(LinkedList<Car> cars) { return 2; }
         @Override
         public String getLabel() { return "Тестовая стратегия"; }
         @Override
@@ -197,7 +198,7 @@ class CountingCommandTest {
 
     private static class ThrowingCountStrategy implements CountStrategy {
         @Override
-        public int count(List<Car> cars) { throw new RuntimeException("Ошибка БД!"); }
+        public int count(LinkedList<Car> cars) { throw new RuntimeException("Ошибка БД!"); }
         @Override
         public String getLabel() { return "Падающая стратегия"; }
         @Override

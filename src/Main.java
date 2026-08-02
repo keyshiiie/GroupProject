@@ -1,3 +1,4 @@
+import Utils.LinkedList;
 import car.Car;
 import mainMenu.*;
 import registry.StrategyRegistry;
@@ -11,7 +12,7 @@ import strategy.export.ExportStrategy;
 import strategy.input.ConsoleInputStrategy;
 import strategy.input.FileInputStrategy;
 import strategy.input.InputStrategy;
-import strategy.input.RandomInputStrategy;
+//import strategy.input.RandomInputStrategy;
 import strategy.sort.*;
 
 import java.util.ArrayList;
@@ -33,8 +34,8 @@ public class Main {
         sortRegistry.register(new SortByYearStrategy());
         sortRegistry.register(new SortByYearEvenStrategy());
 
-        var carsStorage = new ArrayList<Car>();
-        var countResultStorage = new ArrayList<String>();
+        var carsStorage = new LinkedList<Car>();
+        var countResultStorage = new LinkedList<String>();
 
 
         CommandRegistry commandRegistry = new CommandRegistry();
@@ -42,7 +43,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         try {
-            inputRegistry.register(new RandomInputStrategy(scanner));
+            //inputRegistry.register(new RandomInputStrategy(scanner));
             inputRegistry.register(new ConsoleInputStrategy(scanner));
             inputRegistry.register(new FileInputStrategy(scanner));
 

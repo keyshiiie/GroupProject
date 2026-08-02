@@ -1,19 +1,21 @@
 package strategy.sort;
 
-import utils.QuickSortUtil;
+import Utils.LinkedList;
+import Utils.QuickSortUtil;
 import car.Car;
 
 import java.util.*;
 
 public abstract class AbstractSortStrategy implements SortStrategy {
     @Override
-    public List<Car> sort(List<Car> cars) {
+    public LinkedList<Car> sort(LinkedList<Car> cars) {
         if (cars == null || cars.isEmpty()) {
-            return new ArrayList<>();
+            return new LinkedList<>();
         }
 
         Car[] arr = cars.toArray(new Car[0]);
         QuickSortUtil.quickSort(arr, getComparator());
+
         return Arrays.asList(arr);
     }
 }

@@ -1,11 +1,11 @@
 package strategy.count;
 
+import Utils.LinkedList;
 import car.Car;
 import strategy.NamedStrategy;
 
-import java.util.List;
 
 public interface CountStrategy extends NamedStrategy {
-    int count(List<Car> cars);
+    int count(LinkedList<Car> cars);
     String getSearchValue();
 }

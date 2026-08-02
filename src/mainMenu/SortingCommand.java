@@ -6,6 +6,7 @@ import java.util.Scanner;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import Utils.LinkedList;
 import car.Car;
 import registry.StrategyRegistry;
 import strategy.NamedStrategy;
@@ -14,16 +15,16 @@ import strategy.sort.SortStrategy;
 public class SortingCommand implements ConsoleCommand {
 
     private final StrategyRegistry<SortStrategy> sortRegistry;
-    private final Consumer<List<Car>> onSorted;
-    private final Supplier<List<Car>> currentCarsSupplier;
+    private final Consumer<LinkedList<Car>> onSorted;
+    private final Supplier<LinkedList<Car>> currentCarsSupplier;
     private final PrintStream out;
 
     private final Scanner scanner;
 
     public SortingCommand(
             StrategyRegistry<SortStrategy> sortRegistry,
-            Consumer<List<Car>> onSorted,
-            Supplier<List<Car>> currentCarsSupplier,
+            Consumer<LinkedList<Car>> onSorted,
+            Supplier<LinkedList<Car>> currentCarsSupplier,
             PrintStream out,
             Scanner scanner
     ) {
@@ -95,7 +96,7 @@ public class SortingCommand implements ConsoleCommand {
         var selected = strategies.get(idx);
         out.printf("Выбрана стратегия: %s%n", selected.getLabel());
 
-        List<Car> sorted;
+        LinkedList<Car> sorted;
 
         try {
             sorted = selected.sort(cars);

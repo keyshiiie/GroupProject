@@ -1,12 +1,14 @@
 package mainMenu;
 
+import Utils.LinkedList;
 import car.Car;
+
 import java.util.List;
 
 public class OutputCarsCommand implements ConsoleCommand {
-    private final List<Car> carsStorage;
+    private final LinkedList<Car> carsStorage;
 
-    public OutputCarsCommand(List<Car> carsStorage) {
+    public OutputCarsCommand(LinkedList<Car> carsStorage) {
         this.carsStorage = carsStorage;
     }
 

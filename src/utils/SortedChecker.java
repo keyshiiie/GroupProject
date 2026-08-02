@@ -1,18 +1,16 @@
-package utils;
-
-import car.Car;
+package Utils;
 
 import java.util.Comparator;
-import java.util.List;
 
 public class SortedChecker {
-    public static boolean isSorted(List<Car> cars, Comparator<Car> comparator) {
-        if (cars == null || cars.size() <= 1) {
+
+    public static <T> boolean isSorted(LinkedList<T> list, Comparator<? super T> comparator) {
+        if (list == null || list.size() <= 1) {
             return true;
         }
 
-        for (int i = 0; i < cars.size() - 1; i++) {
-            if (comparator.compare(cars.get(i), cars.get(i + 1)) > 0) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            if (comparator.compare(list.get(i), list.get(i + 1)) > 0) {
                 return false;
             }
         }

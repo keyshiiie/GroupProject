@@ -1,5 +1,6 @@
 package mainMenu;
 
+import Utils.LinkedList;
 import car.Car;
 import registry.StrategyRegistry;
 import strategy.count.CountStrategy;
@@ -14,16 +15,16 @@ public class CountingCommand implements ConsoleCommand {
     private final Consumer<List<Car>> onCounted;
     private final Scanner scanner;
     private final PrintStream out;
-    private final List<Car> carsStorage;
-    private final List<String> countResultStorage;
+    private final LinkedList<Car> carsStorage;
+    private final LinkedList<String> countResultStorage;
 
     public CountingCommand(
             StrategyRegistry<CountStrategy> countRegistry,
             Consumer<List<Car>> onCounted,
             PrintStream out,
-            List<Car> carsStorage,
+            LinkedList<Car> carsStorage,
             Scanner scanner,
-            List<String> countResultStorage
+            LinkedList<String> countResultStorage
     ) {
         this.countRegistry = countRegistry;
         this.onCounted = onCounted;

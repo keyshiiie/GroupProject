@@ -1,4 +1,6 @@
-package utils;
+package Utils;
+
+import car.Car;
 
 import java.util.Comparator;
 
@@ -35,7 +37,7 @@ public class QuickSortUtil {
             }
         }
 
-        swap(arr, i, high); // ставим опорный на финальную позицию
+        swap(arr, i, high);
 
         return i;
     }
@@ -44,5 +46,32 @@ public class QuickSortUtil {
         T tmp = arr[i];
         arr[i] = arr[j];
         arr[j] = tmp;
+    }
+
+    public static void quickSort(LinkedList list, Comparator<? super Car> comparator) {
+        if (list == null || comparator == null || list.size() <= 1) return;
+        quickSort(list, 0, list.size() - 1, comparator);
+    }
+
+    private static void quickSort(LinkedList<Car> list, int left, int right, Comparator<? super Car> comparator) {
+        int i = left, j = right;
+        Car pivot = list.get(left + (right - left) / 2);
+
+        while (i <= j) {
+            while (comparator.compare(list.get(i), pivot) < 0) i++;
+            while (comparator.compare(list.get(j), pivot) > 0) j--;
+
+            if (i <= j) {
+                Car a = list.get(i);
+                Car b = list.get(j);
+                list.set(i, b);
+                list.set(j, a);
+                i++;
+                j--;
+            }
+        }
+
+        if (left < j) quickSort(list, left, j, comparator);
+        if (i < right) quickSort(list, i, right, comparator);
     }
 }
