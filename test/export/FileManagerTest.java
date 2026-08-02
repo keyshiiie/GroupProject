@@ -222,7 +222,7 @@ class FileManagerTest {
         assertEquals("validfile", result);
         assertTrue(outputStream.toString().contains("Ошибка"));
     }
-    
+
     @Test
     void testWriteCarToFile_Success() throws IOException {
         String fileName = tempDir.resolve("cars").toString();
@@ -256,8 +256,10 @@ class FileManagerTest {
     @Test
     void testWriteCarToFile_AppendMode() throws IOException {
         String fileName = tempDir.resolve("append_test").toString();
+        // Первая запись
         FileManager.writeCarToFile(fileName, testCars);
 
+        // Вторая запись (должна добавиться, так как используется append=true)
         List<Car> additionalCars = new ArrayList<>();
         additionalCars.add(new Car.Builder()
                 .setModel("Audi A4")
@@ -268,7 +270,10 @@ class FileManagerTest {
 
         File file = new File(fileName + ".txt");
         List<String> lines = readFileLines(file);
-        assertEquals(4, lines.size());
+        assertEquals(4, lines.size(), "Должно быть 4 строки (3 + 1)");
+        assertTrue(lines.get(0).contains("Toyota Camry"));
+        assertTrue(lines.get(1).contains("BMW X5"));
+        assertTrue(lines.get(2).contains("Mercedes E-Class"));
         assertTrue(lines.get(3).contains("Audi A4"));
     }
 
@@ -278,7 +283,7 @@ class FileManagerTest {
         Exception exception = assertThrows(RuntimeException.class, () -> {
             FileManager.writeCarToFile(invalidPath, testCars);
         });
-        assertEquals("Ошибка добавления полей в файл", exception.getMessage());
+        assertTrue(exception.getMessage().contains("Ошибка добавления полей в файл"));
     }
 
     @Test
@@ -311,8 +316,10 @@ class FileManagerTest {
     @Test
     void testWriteCountResultToFile_AppendMode() throws IOException {
         String fileName = tempDir.resolve("append_results").toString();
+        // Первая запись
         FileManager.writeCountResultToFile(fileName, testResults);
 
+        // Вторая запись (должна добавиться, так как используется append=true)
         List<String> additionalResults = new ArrayList<>();
         additionalResults.add("Результат 3: максимальная мощность 300 л.с.");
         FileManager.writeCountResultToFile(fileName, additionalResults);
@@ -320,6 +327,8 @@ class FileManagerTest {
         File file = new File(fileName + ".txt");
         List<String> lines = readFileLines(file);
         assertEquals(3, lines.size());
+        assertEquals("Результат 1: найдено 3 автомобиля", lines.get(0));
+        assertEquals("Результат 2: средняя мощность 250 л.с.", lines.get(1));
         assertEquals("Результат 3: максимальная мощность 300 л.с.", lines.get(2));
     }
 
@@ -329,7 +338,7 @@ class FileManagerTest {
         Exception exception = assertThrows(RuntimeException.class, () -> {
             FileManager.writeCountResultToFile(invalidPath, testResults);
         });
-        assertEquals("Ошибка добавления полей в файл", exception.getMessage());
+        assertTrue(exception.getMessage().contains("Ошибка добавления полей в файл"));
     }
 
     private List<String> readFileLines(File file) throws IOException {

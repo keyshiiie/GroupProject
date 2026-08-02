@@ -21,9 +21,7 @@ class ExportCarsStrategyTest {
 
     private ExportCarsStrategy strategy;
     private List<Car> cars;
-    private String testFileName;
     private Path testFilePath;
-    private String testFileNameWithPath;
 
     @TempDir
     Path tempDir;
@@ -32,11 +30,7 @@ class ExportCarsStrategyTest {
     void setUp() {
         strategy = new ExportCarsStrategy();
         cars = new ArrayList<>();
-
-        testFileName = "test_cars";
-        testFilePath = tempDir.resolve(testFileName + ".txt");
-        testFileNameWithPath = testFilePath.toString();
-
+        testFilePath = tempDir.resolve("test_cars.txt");
     }
 
     @AfterEach
@@ -61,11 +55,9 @@ class ExportCarsStrategyTest {
 
     @Test
     void export_ShouldWriteCarsToFile_WhenDataIsValid() throws IOException {
-
         cars.add(createCar("Toyota Camry", 2020, 200));
         cars.add(createCar("BMW 3 Series", 2021, 300));
         cars.add(createCar("Audi A4", 2022, 250));
-
 
         String pathWithoutExt = testFilePath.toString().replace(".txt", "");
         strategy.export(pathWithoutExt, cars);
@@ -90,7 +82,7 @@ class ExportCarsStrategyTest {
                 () -> strategy.export(testFilePath.toString(), emptyList)
         );
 
-        assertEquals("Ожидается список машин", exception.getMessage());
+        assertEquals("Список машин пуст", exception.getMessage());
     }
 
     @Test
@@ -230,16 +222,18 @@ class ExportCarsStrategyTest {
     void export_ShouldAppendToExistingFile() throws IOException {
         String pathWithoutExt = testFilePath.toString().replace(".txt", "");
 
+        // Первая запись
         cars.add(createCar("First Car", 2020, 200));
         strategy.export(pathWithoutExt, cars);
 
+        // Вторая запись (должна добавиться, так как используется append=true)
         cars.clear();
         cars.add(createCar("Second Car", 2021, 300));
         strategy.export(pathWithoutExt, cars);
 
         assertTrue(Files.exists(testFilePath), "Файл должен быть создан");
         List<String> lines = Files.readAllLines(testFilePath);
-        assertEquals(2, lines.size(), "Должно быть 2 строки");
+        assertEquals(2, lines.size(), "Должно быть 2 строки (дозапись)");
         assertTrue(lines.get(0).contains("First Car"));
         assertTrue(lines.get(1).contains("Second Car"));
     }

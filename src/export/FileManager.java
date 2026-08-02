@@ -90,7 +90,7 @@ public class FileManager {
     }
 
     public static void writeCarToFile(String fileName, Collection<Car> carsStorage) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName + ".txt", false))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName + ".txt", true))) {
             for (Car car : carsStorage) {
                 String model = car.getModel();
                 String year = String.valueOf(car.getYear());

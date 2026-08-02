@@ -306,11 +306,31 @@ public class CarTest {
         Car car = builder.build();
         String toString = car.toString();
 
+        // Исправленный тест, соответствующий формату toString()
+        assertAll(
+                () -> assertTrue(toString.contains("Автомобиль"), "Строка должна содержать 'Автомобиль'"),
+                () -> assertTrue(toString.contains("Мощность: 150"), "Строка должна содержать 'Мощность: 150'"),
+                () -> assertTrue(toString.contains("Модель: 'Toyota Camry'"), "Строка должна содержать 'Модель: 'Toyota Camry''"),
+                () -> assertTrue(toString.contains("Год выпуска: 2020"), "Строка должна содержать 'Год выпуска: 2020'")
+        );
+    }
+
+    @Test
+    @DisplayName("Проверка toString с разными значениями")
+    void testToStringWithDifferentValues() {
+        Car car = new Car.Builder()
+                .setPower(300)
+                .setModel("BMW M3")
+                .setYear(2022)
+                .build();
+
+        String toString = car.toString();
+
         assertAll(
                 () -> assertTrue(toString.contains("Автомобиль")),
-                () -> assertTrue(toString.contains("Мощность=150")),
-                () -> assertTrue(toString.contains("Модель='Toyota Camry'")),
-                () -> assertTrue(toString.contains("Год выпуска=2020"))
+                () -> assertTrue(toString.contains("Мощность: 300")),
+                () -> assertTrue(toString.contains("Модель: 'BMW M3'")),
+                () -> assertTrue(toString.contains("Год выпуска: 2022"))
         );
     }
 

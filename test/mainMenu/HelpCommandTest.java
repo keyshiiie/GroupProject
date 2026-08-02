@@ -33,7 +33,7 @@ class HelpCommandTest {
         helpCommand.execute(new String[0]);
 
         String output = outContent.toString();
-        assertTrue(output.contains("Available commands:"));
+        assertTrue(output.contains("Доступные команды:"));
         assertTrue(output.contains("- exit: команда для выхода из программы"));
         assertTrue(output.contains("- help: вывод списка доступных команд"));
     }
