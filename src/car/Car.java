@@ -42,11 +42,8 @@ public class Car {
 
     @Override
     public String toString() {
-        return "Автомобиль{" +
-                "Мощность=" + power +
-                " л.с., Модель='" + model + '\'' +
-                ", Год выпуска=" + year +
-                '}';
+        return String.format("Автомобиль: Мощность: %-3s л.с. | Модель: %-25s | Год выпуска: %-8s",
+                power, "'" + model + "'", year);
     }
 
     public static class Builder {

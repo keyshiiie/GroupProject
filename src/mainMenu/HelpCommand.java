@@ -19,7 +19,7 @@ public class HelpCommand implements ConsoleCommand {
 
     @Override
     public void execute(String[] args) {
-        System.out.println("Available commands:");
+        System.out.println("Доступные команды:");
 
         for (String commandKey : registry.getAvailableCommands()) {
             ConsoleCommand cmd = registry.getCommand(commandKey);

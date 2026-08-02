@@ -15,7 +15,6 @@ public class RandomCarReader {
 
     public static List<Car> readRandomCarsFromFile() throws Exception {
         Path path = findFile("randomCarsFile.txt");
-        System.out.println("Файл найден: " + path.toAbsolutePath());
 
         if (!Files.exists(path)) {
             throw new Exception("Файл не найден");

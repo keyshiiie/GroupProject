@@ -14,8 +14,7 @@ import strategy.input.InputStrategy;
 import strategy.input.RandomInputStrategy;
 import strategy.sort.*;
 import utils.CarRandomList;
-
-import java.util.ArrayList;
+import utils.StringList;
 import java.util.Scanner;
 
 public class Main {
@@ -36,7 +35,7 @@ public class Main {
         sortRegistry.register(new SortByAllFieldsStrategy());
 
         CarList carsStorage = new CarList();
-        var countResultStorage = new ArrayList<String>();
+        StringList countResultStorage = new StringList();
 
 
         CommandRegistry commandRegistry = new CommandRegistry();

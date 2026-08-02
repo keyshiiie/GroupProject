@@ -35,12 +35,7 @@ public class OutputCarsCommand implements ConsoleCommand {
         IntStream.range(0, carsStorage.size())
                 .forEach(i -> {
                     Car car = carsStorage.get(i);
-                    System.out.printf("%d. Модель: %s, Год: %d, Мощность: %d л.с.%n",
-                            i + 1,
-                            car.getModel(),
-                            car.getYear(),
-                            car.getPower()
-                    );
+                    System.out.println((i + 1) + ". " + car.toString());
                 });
 
         System.out.println("--------------------------");

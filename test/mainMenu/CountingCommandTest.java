@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import registry.StrategyRegistry;
 import strategy.count.CountStrategy;
+import utils.StringList;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -21,7 +22,7 @@ class CountingCommandTest {
 
     private CountingCommand command;
     private CarList carsStorage;
-    private List<String> countResultStorage;
+    private StringList countResultStorage;
     private ByteArrayOutputStream outputStream;
     private PrintStream printStream;
     private StrategyRegistry<CountStrategy> registry;
@@ -29,7 +30,7 @@ class CountingCommandTest {
     @BeforeEach
     void setUp() {
         carsStorage = new CarList();
-        countResultStorage = new ArrayList<>();
+        countResultStorage = new StringList();
         outputStream = new ByteArrayOutputStream();
         printStream = new PrintStream(outputStream);
         registry = new StrategyRegistry<>();

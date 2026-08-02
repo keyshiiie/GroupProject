@@ -49,13 +49,13 @@ public class InputNewCarsCommand implements ConsoleCommand {
             return;
         }
 
-        out.println("Выберите источник данных:");
+        out.println("Выберите источник данных: ");
         IntStream.range(0, strategies.size())
                 .forEach(i -> out.printf("%d. %s%n", i + 1, strategies.get(i).getLabel()));
         out.print("Ваш выбор: ");
 
         String line = scanner.nextLine().strip();
-        if (line == null || line.strip().isEmpty()) {
+        if (line == null || line.strip().isEmpty() || line.equals("exit")) {
             out.println("Выбор отменён.");
             return;
         }

@@ -2,18 +2,17 @@ package mainMenu;
 
 import car.Car;
 import car.CarList;
-import mainMenu.ExportCommand;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import registry.StrategyRegistry;
 import strategy.export.ExportStrategy;
+import utils.StringList;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,7 +24,7 @@ class ExportCommandTest {
     private ByteArrayInputStream inContent;
 
     private CarList carsStorage;
-    private ArrayList<String> countResultStorage;
+    private StringList countResultStorage;
     private Scanner scanner;
     private StrategyRegistry<ExportStrategy> strategyRegistry;
     private ExportCommand exportCommand;
@@ -46,7 +45,7 @@ class ExportCommandTest {
         }
 
         @Override
-        public void export(String fileName, List<?> data) {
+        public void export(String fileName, Collection<?> data) {
             this.exportedFileName = fileName;
             this.exportedData = data;
             this.exportCalled = true;
@@ -71,6 +70,7 @@ class ExportCommandTest {
         }
     }
 
+    // Исправленная стратегия, которая выбрасывает исключение
     private static class FailingExportStrategy implements ExportStrategy {
         private final String label;
 
@@ -84,7 +84,7 @@ class ExportCommandTest {
         }
 
         @Override
-        public void export(String fileName, List<?> data) {
+        public void export(String fileName, Collection<?> data) {
             throw new RuntimeException("Test exception");
         }
     }
@@ -94,7 +94,7 @@ class ExportCommandTest {
         System.setOut(new PrintStream(outContent));
 
         carsStorage = new CarList();
-        countResultStorage = new ArrayList<>();
+        countResultStorage = new StringList();
         strategyRegistry = new StrategyRegistry<>();
         scanner = new Scanner(System.in);
 
@@ -436,5 +436,88 @@ class ExportCommandTest {
         assertFalse(testStrategy.isExportCalled());
         String output = outContent.toString();
         assertTrue(output.contains("Выбор отменён."));
+    }
+
+    @Test
+    void execute_ShouldHandleFileNameWithSpaces() {
+        TestExportStrategy testStrategy = new TestExportStrategy("Список машин");
+        strategyRegistry.register(testStrategy);
+        provideInput("my test file.txt\n1\n");
+        initCommand();
+
+        exportCommand.execute(new String[0]);
+
+        assertTrue(testStrategy.isExportCalled());
+        assertEquals("my test file.txt", testStrategy.getExportedFileName());
+    }
+
+    @Test
+    void execute_ShouldHandleCancelInConfirmationWithBlankResponse() {
+        createUnsortedList();
+
+        TestExportStrategy testStrategy = new TestExportStrategy("Список машин");
+        strategyRegistry.register(testStrategy);
+        provideInput("test.txt\n1\n   \n");
+        initCommand();
+
+        exportCommand.execute(new String[0]);
+
+        assertFalse(testStrategy.isExportCalled());
+        String output = outContent.toString();
+        assertTrue(output.contains("Выбор отменён."));
+    }
+
+    @Test
+    void execute_ShouldHandleMultipleInvalidFileNameAttempts() {
+        TestExportStrategy testStrategy = new TestExportStrategy("Список машин");
+        strategyRegistry.register(testStrategy);
+        provideInput("invalid?.txt\ninvalid|.txt\ntest.txt\n1\n");
+        initCommand();
+
+        exportCommand.execute(new String[0]);
+
+        assertTrue(testStrategy.isExportCalled());
+        assertEquals("test.txt", testStrategy.getExportedFileName());
+        String output = outContent.toString();
+        assertTrue(output.contains("Ошибка:"));
+        assertTrue(output.contains("Имя файла принято: test.txt"));
+    }
+
+    @Test
+    void execute_ShouldHandleCaseInsensitiveCancel() {
+        provideInput("ОТМЕНА\n");
+        initCommand();
+
+        exportCommand.execute(new String[0]);
+
+        String output = outContent.toString();
+        assertTrue(output.contains("Выбор отменён."));
+    }
+
+    @Test
+    void execute_ShouldHandleStrategySelectionWithExtraSpaces() {
+        TestExportStrategy testStrategy = new TestExportStrategy("Список машин");
+        strategyRegistry.register(testStrategy);
+        provideInput("test.txt\n 1 \n");
+        initCommand();
+
+        exportCommand.execute(new String[0]);
+
+        assertTrue(testStrategy.isExportCalled());
+        assertEquals("test.txt", testStrategy.getExportedFileName());
+    }
+
+    @Test
+    void execute_ShouldNotCallExport_WhenDataIsNull() {
+        TestExportStrategy testStrategy = new TestExportStrategy("Неизвестный тип");
+        strategyRegistry.register(testStrategy);
+        provideInput("test.txt\n1\n");
+        initCommand();
+
+        exportCommand.execute(new String[0]);
+
+        assertFalse(testStrategy.isExportCalled());
+        String output = outContent.toString();
+        assertTrue(output.contains("Неизвестный тип данных для экспорта."));
     }
 }

@@ -21,7 +21,7 @@ public class RandomInputStrategy implements InputStrategy {
     @Override
     public CarList setCars() {
         try{
-            System.out.print("Введите количество случайных автомобилей:");
+            System.out.print("Введите количество случайных автомобилей: ");
             int size = Integer.parseInt(scanner.nextLine().trim());
             if(size <=0) throw new RuntimeException("размер должен быть больше 0");
             List<Car> randomCars = new ArrayList<>();

@@ -74,7 +74,7 @@ public class SortingCommand implements ConsoleCommand {
 
         String line = scanner.nextLine().trim();
 
-        if (line == null || line.strip().isEmpty()) {
+        if (line == null || line.strip().isEmpty() || line.equals("exit")) {
             out.println("Выбор отменён.");
             return;
         }

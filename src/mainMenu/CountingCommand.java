@@ -3,6 +3,7 @@ package mainMenu;
 import car.CarList;
 import registry.StrategyRegistry;
 import strategy.count.CountStrategy;
+import utils.StringList;
 
 import java.io.PrintStream;
 import java.util.List;
@@ -14,14 +15,14 @@ public class CountingCommand implements ConsoleCommand {
     private final Scanner scanner;
     private final PrintStream out;
     private final CarList carsStorage;
-    private final List<String> countResultStorage;
+    private final StringList countResultStorage;
 
     public CountingCommand(
             StrategyRegistry<CountStrategy> countRegistry,
             PrintStream out,
             CarList carsStorage,
             Scanner scanner,
-            List<String> countResultStorage
+            StringList countResultStorage
     ) {
         this.countRegistry = countRegistry;
         this.out = out;
@@ -63,7 +64,7 @@ public class CountingCommand implements ConsoleCommand {
         out.print("Ваш выбор: ");
 
         String line = scanner.nextLine().strip();
-        if (line.isEmpty()) {
+        if (line.isEmpty() || line.equals("exit")) {
             out.println("Выбор отменён.");
             return;
         }

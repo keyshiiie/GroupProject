@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.Collection;
 import java.util.Scanner;
 
 public class FileManager {
@@ -89,8 +89,8 @@ public class FileManager {
         return null;
     }
 
-    public static void writeCarToFile(String fileName, List<Car> carsStorage) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName + ".txt", true))) {
+    public static void writeCarToFile(String fileName, Collection<Car> carsStorage) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName + ".txt", false))) {
             for (Car car : carsStorage) {
                 String model = car.getModel();
                 String year = String.valueOf(car.getYear());
@@ -101,18 +101,18 @@ public class FileManager {
                 writer.newLine();
             }
         } catch (IOException e) {
-            throw new RuntimeException("Ошибка добавления полей в файл");
+            throw new RuntimeException("Ошибка добавления полей в файл: " + e.getMessage());
         }
     }
 
-    public static void writeCountResultToFile(String fileName, List<String> results) {
+    public static void writeCountResultToFile(String fileName, Collection<String> results) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName + ".txt", true))) {
             for (String res : results) {
                 writer.write(res);
                 writer.newLine();
             }
         } catch (IOException e) {
-            throw new RuntimeException("Ошибка добавления полей в файл");
+            throw new RuntimeException("Ошибка добавления полей в файл: " + e.getMessage());
         }
     }
 }

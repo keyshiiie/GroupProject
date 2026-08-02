@@ -7,6 +7,8 @@ import comparators.CarPowerComparator;
 import comparators.CarYearComparator;
 import registry.StrategyRegistry;
 import strategy.export.ExportStrategy;
+import utils.StringList;
+
 import java.io.PrintStream;
 import java.util.*;
 
@@ -16,7 +18,7 @@ import static utils.SortedChecker.isSorted;
 public class ExportCommand implements ConsoleCommand {
     private final StrategyRegistry<ExportStrategy> exportStrategyRegistry;
     private final CarList carsStorage;
-    private final List<String> countResultStorage;
+    private final StringList countResultStorage;
     private final Scanner scanner;
     private final PrintStream out;
 
@@ -25,7 +27,7 @@ public class ExportCommand implements ConsoleCommand {
     private final CarYearComparator yearComparator = new CarYearComparator();
 
     public ExportCommand(StrategyRegistry<ExportStrategy> exportStrategyRegistry, CarList carsStorage,
-                         ArrayList<String> countResultStorage, Scanner scanner, PrintStream out) {
+                         StringList countResultStorage, Scanner scanner, PrintStream out) {
         this.exportStrategyRegistry = exportStrategyRegistry;
         this.carsStorage = carsStorage;
         this.countResultStorage = countResultStorage;
@@ -51,7 +53,7 @@ public class ExportCommand implements ConsoleCommand {
         }
 
         String fileName = getFileName(scanner, out);
-        if (fileName == null) {
+        if (fileName == null || fileName.equals("exit")) {
             out.println("Выбор отменён.");
             return;
         }
@@ -71,7 +73,7 @@ public class ExportCommand implements ConsoleCommand {
 
         out.printf("Выбранный экспорт: %s%n", selected.getLabel());
 
-        List<?> data = getDataForExport(selected);
+        Collection<?> data = getDataForExport(selected);
         if (data == null) {
             return;
         }
@@ -128,11 +130,11 @@ public class ExportCommand implements ConsoleCommand {
         return strategies.get(idx);
     }
 
-    private List<?> getDataForExport(ExportStrategy selected) {
+    private Collection<?> getDataForExport(ExportStrategy selected) {
         String label = selected.getLabel();
 
         if ("Список машин".equals(label)) {
-            return (List<?>) carsStorage;  // Явное приведение
+            return carsStorage;
         } else if ("Результаты поиска".equals(label)) {
             if (countResultStorage.isEmpty()) {
                 out.println("Нет результатов поиска для сохранения.");
@@ -146,7 +148,6 @@ public class ExportCommand implements ConsoleCommand {
     }
 
     private boolean isArraySorted() {
-        // Используем только существующие компараторы
         List<Comparator<Car>> comparators = Arrays.asList(
                 powerComparator,
                 modelComparator,
@@ -164,7 +165,7 @@ public class ExportCommand implements ConsoleCommand {
         out.println("2 - Нет");
 
         String response = scanner.nextLine().trim();
-        if (response.isBlank()) {
+        if (response.isBlank() || response.equals("exit")) {
             out.println("Выбор отменён.");
             return false;
         }
