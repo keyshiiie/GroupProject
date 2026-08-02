@@ -24,10 +24,11 @@ public class FileManager {
         boolean valid = false;
 
         while (!valid) {
-            out.print("Введите имя файла (или 'отмена' для выхода): ");
+            out.print("Введите имя файла: ");
             String input = scanner.nextLine();
 
-            if (input == null || input.trim().equalsIgnoreCase("отмена")) {
+            if (input == null || input.equals("exit")) {
+                out.println("Экспорт отменён.");
                 return null;
             }
 
