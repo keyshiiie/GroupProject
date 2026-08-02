@@ -59,7 +59,6 @@ public class Main {
             commandRegistry.register(
                     new CountingCommand(
                             countRegistry,
-                            carsStorage::addAll,
                             System.out,
                             carsStorage,
                             scanner,

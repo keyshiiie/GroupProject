@@ -11,7 +11,6 @@ import java.util.function.Consumer;
 
 public class CountingCommand implements ConsoleCommand {
     private final StrategyRegistry<CountStrategy> countRegistry;
-    private final Consumer<List<Car>> onCounted;
     private final Scanner scanner;
     private final PrintStream out;
     private final List<Car> carsStorage;
@@ -19,14 +18,12 @@ public class CountingCommand implements ConsoleCommand {
 
     public CountingCommand(
             StrategyRegistry<CountStrategy> countRegistry,
-            Consumer<List<Car>> onCounted,
             PrintStream out,
             List<Car> carsStorage,
             Scanner scanner,
             List<String> countResultStorage
     ) {
         this.countRegistry = countRegistry;
-        this.onCounted = onCounted;
         this.out = out;
         this.scanner = scanner;
         this.carsStorage = carsStorage;
@@ -95,8 +92,6 @@ public class CountingCommand implements ConsoleCommand {
                     " - Найдено: " + countElements;
             countResultStorage.add(result);
 
-
-            onCounted.accept(carsStorage);
             out.println("Найдено элементов: " + countElements);
             out.println("\n-------------");
         } catch (Exception e) {
