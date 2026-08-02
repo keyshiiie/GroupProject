@@ -1,7 +1,7 @@
 package mainMenu;
 
-import util.AppTerminator;
-import util.DefaultAppTerminator;
+import utils.AppTerminator;
+import utils.DefaultAppTerminator;
 
 public class ExitCommand implements ConsoleCommand {
     private final AppTerminator terminator;

@@ -1,7 +1,6 @@
 package mainMenu;
 
-import mainMenu.ExitCommand;
-import util.AppTerminator;
+import utils.AppTerminator;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

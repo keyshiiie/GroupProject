@@ -34,6 +34,7 @@ public class Main {
         sortRegistry.register(new SortByModelStrategy());
         sortRegistry.register(new SortByYearStrategy());
         sortRegistry.register(new SortByYearEvenStrategy());
+        sortRegistry.register(new SortByAllFieldsStrategy());
 
         var carsStorage = new ArrayList<Car>();
         var countResultStorage = new ArrayList<String>();

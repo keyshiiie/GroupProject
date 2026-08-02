@@ -4,25 +4,97 @@
 Автомобиль: 180; Volkswagen Golf GTI; 2018
 Автомобиль: 320; BMW 330i; 2022
 Автомобиль: 280; Mercedes-Benz C 300; 2020
-Модель: Suzuki Vitara Год: 2018 Мощность: 140
-Модель: Ford Focus RS Год: 2018 Мощность: 320
-Модель: Mitsubishi Outlander Год: 2020 Мощность: 170
-Модель: Honda Pilot Год: 2021 Мощность: 252
-Модель: Volvo XC40 T4 Год: 2019 Мощность: 210
-Модель: Mazda CX-5 Год: 2018 Мощность: 227
-Модель: BMW M8 Competition Год: 2021 Мощность: 617
-Модель: Honda Accord Год: 2020 Мощность: 200
-Модель: BMW M4 Competition Год: 2020 Мощность: 510
-Модель: Volvo XC60 T5 Год: 2021 Мощность: 250
-Модель: Acura TLX Год: 2021 Мощность: 230
-Модель: Suzuki Swift Год: 2020 Мощность: 100
-Модель: Citroën C5 Aircross Год: 2020 Мощность: 225
-Модель: Mercedes-EQ EQS Год: 2022 Мощность: 402
-Модель: Opel Insignia Год: 2018 Мощность: 160
-Модель: Citroën C4 Год: 2020 Мощность: 160
-Модель: Peugeot 208 Год: 2020 Мощность: 130
-Модель: Ford Mustang EcoBoost Год: 2021 Мощность: 250
-Модель: Honda Passport Год: 2020 Мощность: 310
-Модель: Hyundai Sonata Год: 2020 Мощность: 190
-Подсчет по мощности двигателя: 240 - Найдено: 0
-Подсчет по мощности двигателя: 160 - Найдено: 2
+Автомобиль: 220; Audi A4 45 TFSI; 2021
+Автомобиль: 170; Nissan Altima; 2019
+Автомобиль: 190; Hyundai Sonata; 2020
+Автомобиль: 160; Kia Optima; 2018
+Автомобиль: 185; Mazda 6; 2021
+Автомобиль: 260; Subaru Legacy 3.6R; 2019
+Автомобиль: 300; Lexus IS 350; 2020
+Автомобиль: 230; Acura TLX; 2021
+Автомобиль: 270; Infiniti Q50; 2018
+Автомобиль: 400; Porsche 718 Cayman S; 2022
+Автомобиль: 550; Jaguar F-Type R; 2020
+Автомобиль: 240; Land Rover Discovery Sport; 2019
+Автомобиль: 250; Volvo XC60 T5; 2021
+Автомобиль: 210; Chevrolet Malibu; 2020
+Автомобиль: 290; Dodge Charger GT; 2019
+Автомобиль: 355; Challenger R/T; 2021
+Автомобиль: 170; Mitsubishi Outlander; 2020
+Автомобиль: 140; Suzuki Vitara; 2018
+Автомобиль: 120; Dacia Sandero; 2020
+Автомобиль: 190; Renault Talisman; 2019
+Автомобиль: 210; Peugeot 508 GT; 2021
+Автомобиль: 225; Citroën C5 Aircross; 2020
+Автомобиль: 160; Opel Insignia; 2018
+Автомобиль: 300; Alfa Romeo Giulia Veloce; 2022
+Автомобиль: 280; Maserati Ghibli; 2019
+Автомобиль: 450; Audi RS5; 2021
+Автомобиль: 510; BMW M4 Competition; 2020
+Автомобиль: 385; Mercedes-AMG C 43; 2022
+Автомобиль: 600; Porsche 911 Turbo S; 2023
+Автомобиль: 320; Ford Focus RS; 2018
+Автомобиль: 205; Honda Civic Si; 2020
+Автомобиль: 170; Toyota Camry Hybrid; 2021
+Автомобиль: 250; Nissan Maxima; 2019
+Автомобиль: 275; Hyundai Genesis G80; 2020
+Автомобиль: 290; Kia Stinger GT-Line; 2021
+Автомобиль: 230; Mazda CX-9; 2018
+Автомобиль: 260; Subaru Outback XT; 2022
+Автомобиль: 300; Lexus RX 350; 2020
+Автомобиль: 360; Acura MDX Type S; 2022
+Автомобиль: 400; Infiniti QX80; 2019
+Автомобиль: 480; Jaguar XF S; 2020
+Автомобиль: 250; Land Rover Velar P250; 2021
+Автомобиль: 316; Volvo S90 T6; 2020
+Автомобиль: 195; Chevrolet Equinox; 2019
+Автомобиль: 420; Dodge Durango R/T; 2021
+Автомобиль: 150; Mitsubishi Eclipse Cross; 2020
+Автомобиль: 130; Suzuki Jimny; 2018
+Автомобиль: 110; Dacia Duster; 2020
+Автомобиль: 200; Renault Koleos; 2019
+Автомобиль: 180; Peugeot 3008; 2021
+Автомобиль: 160; Citroën C4; 2020
+Автомобиль: 170; Opel Grandland X; 2018
+Автомобиль: 280; Alfa Romeo Stelvio; 2022
+Автомобиль: 350; Maserati Levante; 2019
+Автомобиль: 450; Audi e-tron GT; 2022
+Автомобиль: 530; BMW i4 M50; 2023
+Автомобиль: 402; Mercedes-EQ EQS; 2022
+Автомобиль: 340; Ford F-150 Raptor; 2021
+Автомобиль: 310; Honda Passport; 2020
+Автомобиль: 381; Toyota Supra; 2021
+Автомобиль: 240; Nissan Pathfinder; 2019
+Автомобиль: 220; Hyundai Santa Fe; 2020
+Автомобиль: 275; Kia Telluride; 2021
+Автомобиль: 227; Mazda CX-5; 2018
+Автомобиль: 182; Subaru Crosstrek; 2020
+Автомобиль: 245; Lexus NX 300; 2019
+Автомобиль: 272; Acura RDX; 2021
+Автомобиль: 325; Infiniti Q60; 2020
+Автомобиль: 550; Porsche Panamera Turbo; 2022
+Автомобиль: 300; Jaguar E-Pace; 2020
+Автомобиль: 250; Land Rover Defender; 2021
+Автомобиль: 210; Volvo XC40 T4; 2019
+Автомобиль: 175; Chevrolet Trailblazer; 2021
+Автомобиль: 395; Dodge Challenger SRT; 2020
+Автомобиль: 220; Mitsubishi Pajero Sport; 2018
+Автомобиль: 100; Suzuki Swift; 2020
+Автомобиль: 90; Dacia Logan; 2019
+Автомобиль: 150; Renault Captur; 2021
+Автомобиль: 130; Peugeot 208; 2020
+Автомобиль: 155; Citroën C3 Aircross; 2018
+Автомобиль: 145; Opel Corsa; 2020
+Автомобиль: 237; Alfa Romeo Giulietta; 2019
+Автомобиль: 270; Maserati Ghibli Diesel; 2020
+Автомобиль: 700; Audi R8 V10; 2022
+Автомобиль: 617; BMW M8 Competition; 2021
+Автомобиль: 639; Mercedes-AMG GT 63; 2020
+Автомобиль: 485; Ford Mustang Shelby GT500; 2022
+Автомобиль: 252; Honda Pilot; 2021
+Автомобиль: 301; Toyota Highlander; 2020
+Автомобиль: 260; Nissan Murano; 2019
+Автомобиль: 230; Hyundai Tucson; 2021
+Автомобиль: 191; Kia Sportage; 2020
+Автомобиль: 187; Mazda CX-30; 2021
+Автомобиль: 152; Subaru Impreza; 2020
