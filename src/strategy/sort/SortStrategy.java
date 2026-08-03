@@ -7,5 +7,5 @@ import car.CarList;
 import strategy.NamedStrategy;
 
 public interface SortStrategy extends NamedStrategy {
-    List<Car> sort(CarList cars);
+    CarList sort(CarList cars);
 }

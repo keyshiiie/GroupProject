@@ -1,21 +1,22 @@
 package utils;
 
 import car.Car;
+import car.CarList;
 import reader.RandomCarReader;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CarRandomList {
-    private static List<Car> cars;
+    private static CarList cars;
     private static volatile boolean initialized = false;
     public static synchronized void initCars() throws Exception {
         if (!initialized) {
-            cars = new ArrayList<>(RandomCarReader.readRandomCarsFromFile());
+            cars = new CarList(RandomCarReader.readRandomCarsFromFile());
             initialized = true;
         }
     }
-    public static List<Car> getCars(){
+    public static CarList getCars(){
         return cars;
     }
     private CarRandomList() {}

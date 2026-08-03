@@ -1,6 +1,7 @@
 package reader;
 
 import car.Car;
+import car.CarList;
 
 import java.io.BufferedReader;
 import java.nio.file.Files;
@@ -13,7 +14,7 @@ import java.util.Random;
 
 public class RandomCarReader {
 
-    public static List<Car> readRandomCarsFromFile() throws Exception {
+    public static CarList readRandomCarsFromFile() throws Exception {
         Path path = findFile("randomCarsFile.txt");
 
         if (!Files.exists(path)) {
@@ -22,7 +23,7 @@ public class RandomCarReader {
         if (Files.isRegularFile(path) && !path.getFileName().toString().endsWith(".txt")) {
             throw new Exception("Файл должен быть в формате txt");
         }
-        List<Car> cars = new ArrayList<>();
+        CarList cars = new CarList();
         String firstLine = readFirstLine(path);
         if (firstLine.startsWith("Автомобиль: ")) {
             cars = readFirstLineRandomCars(path);
@@ -42,8 +43,8 @@ public class RandomCarReader {
     }
 
 
-    private static List<Car> readFirstLineRandomCars(Path path) throws Exception {
-        List<Car> cars = new ArrayList<>();
+    private static CarList readFirstLineRandomCars(Path path) throws Exception {
+        CarList cars = new CarList();
         try {
             for (String line : Files.readAllLines(path)) {
                 if (line.isEmpty()) continue;
@@ -75,7 +76,7 @@ public class RandomCarReader {
         throw new Exception("Файл " + filename + " не найден. Проверены: " + searchRoots);
     }
 
-    private static List<Car> getCar(String line) {
+    private static CarList getCar(String line) {
         String content = line.replaceFirst("^Автомобиль:", "");
         String[] parts = content.split(";");
         String[] powers = parts[0].replaceAll("\\s*", "").split("–");
@@ -92,7 +93,7 @@ public class RandomCarReader {
         if (years.length == 2){
              lastYear = Integer.parseInt(years[1]);
         }
-        List<Car> randomCars = new ArrayList<>();
+        CarList randomCars = new CarList();
         Random rand = new Random();
         for (int index = 0; index < 10000;index++){
             int randomPower = minPower;

@@ -1,8 +1,6 @@
 package utils;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.*;
 
 public class LinkedList<T> implements Collection<T>, Iterable<T> {
     private static class Node<T> {
@@ -312,6 +310,17 @@ public class LinkedList<T> implements Collection<T>, Iterable<T> {
         clear();
         for (T element : arr) {
             add(element);
+        }
+    }
+
+    public void shuffle() {
+        if (size <= 1) return;
+
+        Object[] arr = toArray();
+        Collections.shuffle(Arrays.asList(arr));
+        clear();
+        for (Object obj : arr) {
+            add((T) obj);
         }
     }
 }

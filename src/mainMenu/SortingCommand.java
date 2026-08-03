@@ -15,7 +15,7 @@ import strategy.sort.SortStrategy;
 public class SortingCommand implements ConsoleCommand {
 
     private final StrategyRegistry<SortStrategy> sortRegistry;
-    private final Consumer<List<Car>> onSorted;
+    private final Consumer<CarList> onSorted;
     private final Supplier<CarList> currentCarsSupplier;
     private final PrintStream out;
 
@@ -23,7 +23,7 @@ public class SortingCommand implements ConsoleCommand {
 
     public SortingCommand(
             StrategyRegistry<SortStrategy> sortRegistry,
-            Consumer<List<Car>> onSorted,
+            Consumer<CarList> onSorted,
             Supplier<CarList> currentCarsSupplier,
             PrintStream out,
             Scanner scanner
@@ -96,7 +96,7 @@ public class SortingCommand implements ConsoleCommand {
         var selected = strategies.get(idx);
         out.printf("Выбрана стратегия: %s%n", selected.getLabel());
 
-        List<Car> sorted;
+        CarList sorted;
 
         try {
             sorted = selected.sort(cars);

@@ -6,9 +6,6 @@ import org.junit.jupiter.api.Test;
 import strategy.sort.SortByPowerEvenStrategy;
 import strategy.sort.SortByYearEvenStrategy;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -23,10 +20,9 @@ class SortEvenStrategiesTest {
         cars.add(new Car.Builder().setModel("BBBBB").setPower(110).setYear(2013).build());
         cars.add(new Car.Builder().setModel("CCCCC").setPower(120).setYear(2014).build());
 
-        List<Car> sorted = strategy.sort(cars);
+        CarList sorted = strategy.sort(cars);
 
         assertEquals(2013, sorted.get(1).getYear(), "Нечётный год должен остаться на своей позиции");
-
         assertEquals(2014, sorted.get(0).getYear());
         assertEquals(2016, sorted.get(2).getYear());
     }
@@ -43,12 +39,11 @@ class SortEvenStrategiesTest {
         cars.add(new Car.Builder().setModel("EEEEE").setYear(2017).setPower(150).build());
         cars.add(new Car.Builder().setModel("FFFFF").setYear(2022).setPower(150).build());
 
-        List<Car> sorted = strategy.sort(cars);
+        CarList sorted = strategy.sort(cars);
 
         assertEquals(2019, sorted.get(1).getYear());
         assertEquals(2021, sorted.get(2).getYear());
         assertEquals(2017, sorted.get(4).getYear());
-
         assertEquals(2018, sorted.get(0).getYear());
         assertEquals(2020, sorted.get(3).getYear());
         assertEquals(2022, sorted.get(5).getYear());
@@ -65,11 +60,10 @@ class SortEvenStrategiesTest {
         cars.add(new Car.Builder().setModel("DDDDD").setPower(153).setYear(2003).build());
         cars.add(new Car.Builder().setModel("EEEEE").setPower(160).setYear(2004).build());
 
-        List<Car> sorted = strategy.sort(cars);
+        CarList sorted = strategy.sort(cars);
 
         assertEquals(151, sorted.get(1).getPower());
         assertEquals(153, sorted.get(3).getPower());
-
         assertEquals(148, sorted.get(0).getPower());
         assertEquals(150, sorted.get(2).getPower());
         assertEquals(160, sorted.get(4).getPower());
@@ -82,7 +76,6 @@ class SortEvenStrategiesTest {
 
         assertTrue(powerEven.sort(null).isEmpty());
         assertTrue(powerEven.sort(new CarList()).isEmpty());
-
         assertTrue(yearEven.sort(null).isEmpty());
         assertTrue(yearEven.sort(new CarList()).isEmpty());
     }

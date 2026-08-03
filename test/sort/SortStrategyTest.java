@@ -8,8 +8,6 @@ import strategy.sort.SortByModelStrategy;
 import strategy.sort.SortByPowerStrategy;
 import strategy.sort.SortByYearStrategy;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class SortStrategyTest {
@@ -32,7 +30,7 @@ class SortStrategyTest {
         cars.add(new Car.Builder().setModel("Audi a3").setPower(200).setYear(2020).build());
         cars.add(new Car.Builder().setModel("BMW 530d").setPower(180).setYear(2019).build());
 
-        List<Car> sorted = modelStrategy.sort(cars);
+        CarList sorted = modelStrategy.sort(cars);
 
         assertEquals("Audi a3", sorted.get(0).getModel());
         assertEquals("BMW 530d", sorted.get(1).getModel());
@@ -46,7 +44,7 @@ class SortStrategyTest {
         cars.add(new Car.Builder().setModel("BBBBB").setPower(100).setYear(2015).build());
         cars.add(new Car.Builder().setModel("CCCCC").setPower(150).setYear(2012).build());
 
-        List<Car> sorted = powerStrategy.sort(cars);
+        CarList sorted = powerStrategy.sort(cars);
 
         assertEquals(100, sorted.get(0).getPower());
         assertEquals(150, sorted.get(1).getPower());
@@ -60,7 +58,7 @@ class SortStrategyTest {
         cars.add(new Car.Builder().setModel("YYYYY").setPower(130).setYear(2018).build());
         cars.add(new Car.Builder().setModel("ZZZZZ").setPower(140).setYear(2020).build());
 
-        List<Car> sorted = yearStrategy.sort(cars);
+        CarList sorted = yearStrategy.sort(cars);
 
         assertEquals(2018, sorted.get(0).getYear());
         assertEquals(2020, sorted.get(1).getYear());

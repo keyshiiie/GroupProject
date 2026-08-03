@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 
 public class RandomInputStrategy implements InputStrategy {
@@ -24,25 +25,16 @@ public class RandomInputStrategy implements InputStrategy {
             System.out.print("Введите количество случайных автомобилей: ");
             int size = Integer.parseInt(scanner.nextLine().trim());
             if(size <=0) throw new RuntimeException("размер должен быть больше 0");
-            List<Car> randomCars = new ArrayList<>();
-            do {
-                randomCars.addAll(CarRandomList.getCars());
+            CarList randomCars = CarRandomList.getCars();
+            if (randomCars == null || randomCars.isEmpty()) {
+                throw new RuntimeException("Нет доступных случайных автомобилей");
             }
-            while(randomCars.size()<size);
-            Collections.shuffle(randomCars);
-            int actualSize = Math.min(size, randomCars.size());
-            CarList carList = randomCars.stream()
-                    .limit(actualSize)
-                    .collect(
-                            CarList::new,
-                            CarList::add,
-                            CarList::addAll
-                    );
-
-            return carList;
+            return IntStream.range(0, Math.min(size, randomCars.size()))
+                    .mapToObj(randomCars::get)
+                    .collect(CarList::new, CarList::add, CarList::addAll);
         } catch(Exception e){
             System.err.println("Ошибка при чтении списка автомобилей: " + e.getMessage());
-            return new CarList(new ArrayList<>());
+            return new CarList();
         }
     }
 

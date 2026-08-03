@@ -33,21 +33,15 @@ public class FileInputStrategy implements InputStrategy {
             System.out.print("Введите количество автомобилей для загрузки: ");
             int size = Integer.parseInt(scanner.nextLine().trim());
             if(size <=0) throw new RuntimeException("размер должен быть больше 0");
-            List<Car> carsFromFile = readCarsFromFile(filename, size);
-            CarList carList = carsFromFile.stream()
-                    .collect(
-                            CarList::new,
-                            CarList::add,
-                            CarList::addAll
-                    );
-            return carList;
+            CarList carsFromFile = readCarsFromFile(filename, size);
+            return carsFromFile;
         } catch (Exception e) {
             System.err.println("Ошибка при чтении файла: " + e.getMessage());
-            return new CarList(new ArrayList<>());
+            return new CarList();
         }
     }
 
-    public static List<Car> readCarsFromFile(String filename,int size) throws Exception {
+    public static CarList readCarsFromFile(String filename,int size) throws Exception {
         Path path = findFile(filename);
         System.out.println("Файл найден: " + path.toAbsolutePath());
 
@@ -57,10 +51,10 @@ public class FileInputStrategy implements InputStrategy {
         if (Files.isRegularFile(path) && !path.getFileName().toString().endsWith(".txt")) {
             throw new Exception("Файл должен быть в формате txt");
         }
-        List<Car> cars = new ArrayList<>();
+        CarList cars = new CarList();
         String firstLine = readFirstLine(path);
         if (firstLine.startsWith("Автомобиль: ")) {
-            cars = readFirstLineCars(path,size);
+            cars = readFirstLineCars(path, size);
         }
         if (!firstLine.startsWith("Автомобиль: ")) {
             throw new Exception("Файл не подходит под формат чтения \n" +
@@ -77,8 +71,8 @@ public class FileInputStrategy implements InputStrategy {
     }
 
 
-    private static List<Car> readFirstLineCars(Path path, int size) throws Exception {
-        List<Car> cars = new ArrayList<>();
+    private static CarList readFirstLineCars(Path path, int size) throws Exception {
+        CarList cars = new CarList();
         int i = 0;
         try {
             for (String line : Files.readAllLines(path)) {

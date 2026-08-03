@@ -10,8 +10,6 @@ import strategy.sort.SortStrategy;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -188,7 +186,7 @@ class SortingCommandTest {
         carsStorage.add(createCar("BMW", 200, 2021));
 
         final int[] consumerCallCount = {0};
-        Consumer<List<Car>> consumer = sortedCars -> {
+        Consumer<CarList> consumer = sortedCars -> {
             consumerCallCount[0]++;
             sortedCarsStorage.addAll(sortedCars);
         };
@@ -264,8 +262,7 @@ class SortingCommandTest {
         carsStorage.add(car1);
         carsStorage.add(car2);
 
-        CarList originalListCopy = new CarList();
-        originalListCopy.addAll(carsStorage);
+        CarList originalListCopy = new CarList(carsStorage);
 
         command = new SortingCommand(
                 registry,
@@ -289,7 +286,7 @@ class SortingCommandTest {
         carsStorage.add(createCar("BMW", 200, 2021));
 
         final int[] consumerCallCount = {0};
-        Consumer<List<Car>> consumer = sortedCars -> {
+        Consumer<CarList> consumer = sortedCars -> {
             consumerCallCount[0]++;
             sortedCarsStorage.addAll(sortedCars);
         };
@@ -316,11 +313,8 @@ class SortingCommandTest {
 
     private static class TestSortStrategy implements SortStrategy {
         @Override
-        public List<Car> sort(CarList cars) {
-            List<Car> result = new ArrayList<>();
-            for (int i = 0; i < cars.size(); i++) {
-                result.add(cars.get(i));
-            }
+        public CarList sort(CarList cars) {
+            CarList result = new CarList(cars);
             return result;
         }
 
@@ -332,11 +326,8 @@ class SortingCommandTest {
 
     private static class AnotherSortStrategy implements SortStrategy {
         @Override
-        public List<Car> sort(CarList cars) {
-            List<Car> result = new ArrayList<>();
-            for (int i = 0; i < cars.size(); i++) {
-                result.add(cars.get(i));
-            }
+        public CarList sort(CarList cars) {
+            CarList result = new CarList(cars);
             return result;
         }
 
@@ -348,7 +339,7 @@ class SortingCommandTest {
 
     private static class ThrowingSortStrategy implements SortStrategy {
         @Override
-        public List<Car> sort(CarList cars) {
+        public CarList sort(CarList cars) {  // ✅ Изменено с List<Car> на CarList
             throw new RuntimeException("Ошибка сортировки!");
         }
 

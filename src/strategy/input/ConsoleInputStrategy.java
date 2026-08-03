@@ -3,9 +3,9 @@ package strategy.input;
 import car.Car;
 import car.CarList;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 public class ConsoleInputStrategy implements InputStrategy {
 
@@ -25,24 +25,10 @@ public class ConsoleInputStrategy implements InputStrategy {
                 return new CarList();
             }
 
-            List<Car> tempCars = new ArrayList<>();
-            for (int i = 0; i < size; i++) {
-                Car car = readSingleCar(scanner, i + 1);
-                if (car == null) {
-                    break;
-                }
-                tempCars.add(car);
-            }
-
-            CarList cars = tempCars.stream()
-                    .collect(
-                            CarList::new,
-                            CarList::add,
-                            CarList::addAll
-                    );
-
-            return cars;
-
+            return IntStream.range(0, size)
+                    .mapToObj(i -> readSingleCar(scanner, i + 1))
+                    .takeWhile(Objects::nonNull)
+                    .collect(CarList::new, CarList::add, CarList::addAll);
         } catch (NumberFormatException e) {
             System.err.println("Ошибка: введите корректное число!");
             return new CarList();

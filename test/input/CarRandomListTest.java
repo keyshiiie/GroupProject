@@ -1,6 +1,7 @@
 package input;
 
 import car.Car;
+import car.CarList;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import utils.CarRandomList;
@@ -18,12 +19,12 @@ class CarRandomListTest {
     @Test
     void shouldInitializeOnceAndReturnSameList() throws Exception {
         CarRandomList.initCars();
-        List<Car> firstList = CarRandomList.getCars();
+        CarList firstList = CarRandomList.getCars();
         assertNotNull(firstList);
         assertEquals(1000000, firstList.size());
 
         CarRandomList.initCars();
-        List<Car> secondList = CarRandomList.getCars();
+        CarList secondList = CarRandomList.getCars();
         assertSame(firstList, secondList);
     }
 

@@ -38,7 +38,12 @@ class FileInputStrategyTest {
         assertEquals(200, cars.get(0).getPower());
         assertEquals(2021, cars.get(0).getYear());
         assertEquals("BMW 7 Series", cars.get(1).getModel());
-        Files.deleteIfExists(Path.of(System.getProperty("user.dir")).resolve("cars.txt"));
+
+        try {
+            Files.deleteIfExists(Path.of(System.getProperty("user.dir")).resolve("cars.txt"));
+        } catch (IOException e) {
+            // ignore
+        }
     }
 
     @Test
@@ -50,7 +55,7 @@ class FileInputStrategyTest {
     }
 
     @Test
-    void shouldReturnEmptyListOnInvalidSizeInput() throws IOException {
+    void shouldReturnEmptyListOnInvalidSizeInput() {
         try {
             createFileInProjectRoot("Автомобиль: 100; Test; 2020", "valid.txt");
         } catch (Exception e) {
@@ -60,7 +65,12 @@ class FileInputStrategyTest {
         FileInputStrategy strategy = new FileInputStrategy(scanner);
         CarList cars = strategy.setCars();
         assertTrue(cars.isEmpty());
-        Files.deleteIfExists(Path.of(System.getProperty("user.dir")).resolve("valid.txt"));
+
+        try {
+            Files.deleteIfExists(Path.of(System.getProperty("user.dir")).resolve("valid.txt"));
+        } catch (IOException e) {
+            // ignore
+        }
     }
 
     @Test
@@ -70,7 +80,12 @@ class FileInputStrategyTest {
         FileInputStrategy strategy = new FileInputStrategy(scanner);
         CarList cars = strategy.setCars();
         assertTrue(cars.isEmpty());
-        Files.deleteIfExists(Path.of(System.getProperty("user.dir")).resolve("bad.txt"));
+
+        try {
+            Files.deleteIfExists(Path.of(System.getProperty("user.dir")).resolve("bad.txt"));
+        } catch (IOException e) {
+            // ignore
+        }
     }
 
     @Test

@@ -15,22 +15,18 @@ public abstract class AbstractEvenSortStrategy extends AbstractSortStrategy {
     protected abstract boolean isEven(Car car);
 
     @Override
-    public List<Car> sort(CarList cars) {
+    public CarList  sort(CarList cars) {
         if (cars == null || cars.isEmpty()) {
-            return new ArrayList<>();
+            return new CarList();
         }
 
-        List<Car> result = new ArrayList<>();
-        result.addAll(cars);
+        CarList result = new CarList(cars);
+        CarList evenCars = new CarList();
 
-        List<Integer> evenIndices = new ArrayList<>();
-        List<Car> evenCars = new ArrayList<>();
-
-        for (int i = 0; i < result.size(); i++) {
-            Car c = result.get(i);
-            if (isEven(c)) {
-                evenIndices.add(i);
-                evenCars.add(c);
+        for (int i = 0; i < cars.size(); i++) {
+            Car car = cars.get(i);
+            if (isEven(car)) {
+                evenCars.add(car);
             }
         }
 
@@ -39,11 +35,14 @@ public abstract class AbstractEvenSortStrategy extends AbstractSortStrategy {
         }
 
         Car[] evenArray = evenCars.toArray(new Car[0]);
-        QuickSortUtil.quickSort(evenArray, super.comparator);
+        QuickSortUtil.quickSort(evenArray, comparator);
 
-        for (int i = 0; i < evenIndices.size(); i++) {
-            int index = evenIndices.get(i);
-            result.set(index, evenArray[i]);
+        int evenIndex = 0;
+        for (int i = 0; i < result.size(); i++) {
+            Car car = result.get(i);
+            if (isEven(car)) {
+                result.set(i, evenArray[evenIndex++]);
+            }
         }
 
         return result;
