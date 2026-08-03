@@ -1,211 +1,220 @@
 package mainMenu;
-
 import car.Car;
 import car.CarList;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import strategy.input.ConsoleInputStrategy;
+import registry.StrategyRegistry;
+import strategy.input.InputStrategy;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class InputNewCarsCommandTest {
 
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
-    private final PrintStream originalErr = System.err;
-    private final InputStream originalIn = System.in;
+    private ByteArrayOutputStream baos;
+    private PrintStream out;
 
-    private ConsoleInputStrategy handler;
+    private StrategyRegistry<InputStrategy> registry;
+
+    private CapturingConsumer consumer;
+
+    private InputNewCarsCommand command;
+
+    static class TestInputStrategy implements InputStrategy {
+        private final String label;
+        private final CarList result;
+        private final RuntimeException exception;
+
+        public TestInputStrategy(String label, CarList result) {
+            this(label, result, null);
+        }
+
+        public TestInputStrategy(String label, RuntimeException exception) {
+            this(label, null, exception);
+        }
+
+        private TestInputStrategy(String label, CarList result, RuntimeException exception) {
+            this.label = label;
+            this.result = result;
+            this.exception = exception;
+        }
+
+        @Override
+        public String getLabel() {
+            return label;
+        }
+
+        @Override
+        public CarList setCars() {
+            if (exception != null) {
+                throw exception;
+            }
+            return result != null ? result : new CarList();
+        }
+    }
+
+
+    static class CapturingConsumer implements Consumer<CarList> {
+        private CarList captured;
+
+        @Override
+        public void accept(CarList carList) {
+            this.captured = carList;
+        }
+
+        public CarList getCaptured() {
+            return captured;
+        }
+
+        public void reset() {
+            captured = null;
+        }
+    }
+
+
 
     @BeforeEach
     void setUp() {
-        System.setOut(new PrintStream(outContent));
-        System.setErr(new PrintStream(errContent));
-    }
-
-    @AfterEach
-    void restoreStreams() {
-        System.setOut(originalOut);
-        System.setErr(originalErr);
-        System.setIn(originalIn);
-        outContent.reset();
-        errContent.reset();
-    }
-
-    private void prepareHandler(String input) {
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-        handler = new ConsoleInputStrategy(new Scanner(System.in));
+        baos = new ByteArrayOutputStream();
+        out = new PrintStream(baos);
+        registry = new StrategyRegistry<>();
+        consumer = new CapturingConsumer();
     }
 
 
-    @Test
-    void setCarsValidInputReturnsCarList() {
-        String input = "2\n" +
-                "Toyota\n" +
-                "2020\n" +
-                "150\n" +
-                "Honda\n" +
-                "2018\n" +
-                "200\n";
-        prepareHandler(input);
-
-        CarList result = handler.setCars();
-
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        Car car1 = result.get(0);
-        assertEquals("Toyota", car1.getModel());
-        assertEquals(2020, car1.getYear());
-        assertEquals(150, car1.getPower());
-
-        Car car2 = result.get(1);
-        assertEquals("Honda", car2.getModel());
-        assertEquals(2018, car2.getYear());
-        assertEquals(200, car2.getPower());
-
-        String output = outContent.toString();
-        assertTrue(output.contains("Введите количество автомобилей которые хотите добавить:"));
-        assertTrue(output.contains("--- Ввод автомобиля №1 ---"));
-        assertTrue(output.contains("--- Ввод автомобиля №2 ---"));
+    private void createCommand(String input) {
+        ByteArrayInputStream bais = new ByteArrayInputStream(input.getBytes());
+        Scanner scanner = new Scanner(bais);
+        command = new InputNewCarsCommand(registry, consumer, out, scanner);
     }
 
     @Test
-    void setCarsZeroSizeReturnsEmptyAndPrintsError() {
-        String input = "0\n";
-        prepareHandler(input);
+    void executeNoStrategiesPrintsNoStrategies() {
+        createCommand("");
+        command.execute(new String[0]);
 
-        CarList result = handler.setCars();
-
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
-        assertTrue(errContent.toString().contains("Размер должен быть больше 0."));
+        String output = baos.toString();
+        assertTrue(output.contains("Нет зарегистрированных стратегий ввода."));
+        assertNull(consumer.getCaptured());
     }
 
     @Test
-    void setCarsNegativeSizeReturnsEmptyAndPrintsError() {
-        String input = "-5\n";
-        prepareHandler(input);
+    void executeUserCancelsWithEmptyLinePrintsCancel() {
+        CarList dummy = new CarList();
+        registry.register(new TestInputStrategy("Console", dummy));
+        registry.register(new TestInputStrategy("File", dummy));
+        createCommand("\n"); // пустая строка
 
-        CarList result = handler.setCars();
+        command.execute(new String[0]);
 
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
-        assertTrue(errContent.toString().contains("Размер должен быть больше 0."));
+        String output = baos.toString();
+        assertTrue(output.contains("Выберите источник данных:"));
+        assertTrue(output.contains("1. Console"));
+        assertTrue(output.contains("2. File"));
+        assertTrue(output.contains("Выбор отменён."));
+        assertNull(consumer.getCaptured());
     }
 
     @Test
-    void setCarsInvalidNumberFormatReturnsEmptyAndPrintsError() {
-        String input = "abc\n";
-        prepareHandler(input);
+    void executeUserCancelsWithExitPrintsCancel() {
+        registry.register(new TestInputStrategy("Console", new CarList()));
+        createCommand("exit\n");
 
-        CarList result = handler.setCars();
+        command.execute(new String[0]);
 
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
-        assertTrue(errContent.toString().contains("Ошибка: введите корректное число!"));
+        String output = baos.toString();
+        assertTrue(output.contains("Выбор отменён."));
+        assertNull(consumer.getCaptured());
     }
 
     @Test
-    void setCarsCancelFirstCarReturnsEmpty() {
-        String input = "1\n" +
-                "\n";
-        prepareHandler(input);
+    void executeInvalidNumberFormatPrintsInvalid() {
+        registry.register(new TestInputStrategy("Console", new CarList()));
+        registry.register(new TestInputStrategy("File", new CarList()));
+        createCommand("abc\n");
 
-        CarList result = handler.setCars();
+        command.execute(new String[0]);
 
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
-        assertTrue(outContent.toString().contains("Ввод отменен."));
+        String output = baos.toString();
+        assertTrue(output.contains("Некорректный ввод."));
+        assertNull(consumer.getCaptured());
     }
 
     @Test
-    void setCarsCancelAfterFirstCarReturnsFirstCar() {
-        String input = "2\n" +
-                "Toyota\n" +
-                "2020\n" +
-                "150\n" +
-                "\n";
-        prepareHandler(input);
+    void executeNumberOutOfRangeLowPrintsInvalidNumber() {
+        registry.register(new TestInputStrategy("Console", new CarList()));
+        registry.register(new TestInputStrategy("File", new CarList()));
+        createCommand("0\n");
 
-        CarList result = handler.setCars();
+        command.execute(new String[0]);
 
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals("Toyota", result.get(0).getModel());
-        assertTrue(outContent.toString().contains("Ввод отменен."));
+        String output = baos.toString();
+        assertTrue(output.contains("Недопустимый номер."));
+        assertNull(consumer.getCaptured());
     }
 
     @Test
-    void setCarsInvalidYear() {
-        String input = "1\n" +
-                "BMW\n" +
-                "abc\n" +
-                "180\n";
-        prepareHandler(input);
+    void executeNumberOutOfRangeHighPrintsInvalidNumber() {
+        registry.register(new TestInputStrategy("Console", new CarList()));
+        registry.register(new TestInputStrategy("File", new CarList()));
+        createCommand("3\n");
 
-        CarList result = handler.setCars();
+        command.execute(new String[0]);
 
-        assertNotNull(result);
-        assertEquals(0, result.size());
+        String output = baos.toString();
+        assertTrue(output.contains("Недопустимый номер."));
+        assertNull(consumer.getCaptured());
     }
 
     @Test
-    void setCarsInvalidPower() {
-        String input = "1\n" +
-                "Audi\n" +
-                "2019\n" +
-                "xbr\n";
-        prepareHandler(input);
+    void executeStrategyThrowsExceptionPrintsError() {
+        registry.register(new TestInputStrategy("Console", new RuntimeException("Test exception")));
+        registry.register(new TestInputStrategy("File", new CarList()));
+        createCommand("1\n");
 
-        CarList result = handler.setCars();
+        command.execute(new String[0]);
 
-        assertNotNull(result);
-        assertEquals(0, result.size());
-    }
-
-
-    @Test
-    void setCarsCancelAtYearInputReturnsPreviousCars() {
-        String input = "2\n" +
-                "Toyota\n" +
-                "2020\n" +
-                "150\n" +
-                "Honda\n" +
-                "\n";
-        prepareHandler(input);
-
-        CarList result = handler.setCars();
-
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals("Toyota", result.get(0).getModel());
-        assertTrue(outContent.toString().contains("Ввод отменен."));
+        String output = baos.toString();
+        assertTrue(output.contains("Выбран источник: Console"));
+        assertTrue(output.contains("Ошибка при получении данных: Test exception"));
+        assertNull(consumer.getCaptured());
     }
 
     @Test
-    void setCarsCancelAtPowerInputReturnsPreviousCars() {
-        String input = "2\n" +
-                "Toyota\n" +
-                "2020\n" +
-                "150\n" +
-                "Honda\n" +
-                "2019\n" +
-                "\n";
-        prepareHandler(input);
+    void executeSuccessfulSelectionAcceptsCars() {
+        CarList cars = new CarList();
+        cars.add(new Car.Builder().setModel("Test").setYear(2020).setPower(100).build());
 
-        CarList result = handler.setCars();
+        registry.register(new TestInputStrategy("Console", new CarList()));
+        registry.register(new TestInputStrategy("File", cars));
+        createCommand("2\n");
 
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals("Toyota", result.get(0).getModel());
-        assertTrue(outContent.toString().contains("Ввод отменен."));
+        command.execute(new String[0]);
+
+        String output = baos.toString();
+        assertTrue(output.contains("Выберите источник данных:"));
+        assertTrue(output.contains("1. Console"));
+        assertTrue(output.contains("2. File"));
+        assertTrue(output.contains("Выбран источник: File"));
+        assertTrue(output.contains("Загружено автомобилей: 1"));
+
+        CarList captured = consumer.getCaptured();
+        assertNotNull(captured);
+        assertEquals(1, captured.size());
+        Car car = captured.get(0);
+        assertEquals("Test", car.getModel());
+        assertEquals(2020, car.getYear());
+        assertEquals(100, car.getPower());
+    }
+
+    @Test
+    void getCommandTextReturnsInput() {
+        createCommand("");
+        assertEquals("input", command.getCommandText());
     }
 }
