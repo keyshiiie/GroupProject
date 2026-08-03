@@ -35,7 +35,7 @@ public class OutputCarsCommand implements ConsoleCommand {
         IntStream.range(0, carsStorage.size())
                 .forEach(i -> {
                     Car car = carsStorage.get(i);
-                    System.out.println((i + 1) + ". " + car.toString());
+                    System.out.println(String.format("%-5s" + car.toString(), (i + 1) + "."));
                 });
 
         System.out.println("--------------------------");

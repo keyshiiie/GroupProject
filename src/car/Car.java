@@ -8,7 +8,6 @@ public class Car {
     private final String model;
     private final int year;
 
-
     private Car(Builder builder){
         this.power = builder.power;
         this.model = builder.model.trim();
@@ -42,7 +41,7 @@ public class Car {
 
     @Override
     public String toString() {
-        return String.format("Автомобиль: Мощность: %-3s л.с. | Модель: %-25s | Год выпуска: %-8s",
+        return String.format("Автомобиль: Мощность: %-5s л.с. | Модель: %-30s | Год выпуска: %-8s",
                 power, "'" + model + "'", year);
     }
 

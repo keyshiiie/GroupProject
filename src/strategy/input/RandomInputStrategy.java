@@ -29,8 +29,10 @@ public class RandomInputStrategy implements InputStrategy {
             if (randomCars == null || randomCars.isEmpty()) {
                 throw new RuntimeException("Нет доступных случайных автомобилей");
             }
-            return IntStream.range(0, Math.min(size, randomCars.size()))
-                    .mapToObj(randomCars::get)
+            CarList shuffledCars = new CarList(randomCars);
+            shuffledCars.shuffle();
+            return IntStream.range(0, Math.min(size, shuffledCars.size()))
+                    .mapToObj(shuffledCars::get)
                     .collect(CarList::new, CarList::add, CarList::addAll);
         } catch(Exception e){
             System.err.println("Ошибка при чтении списка автомобилей: " + e.getMessage());
