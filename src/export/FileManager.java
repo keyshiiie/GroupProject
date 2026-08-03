@@ -27,8 +27,7 @@ public class FileManager {
             out.print("Введите имя файла: ");
             String input = scanner.nextLine();
 
-            if (input == null || input.equals("exit")) {
-                out.println("Экспорт отменён.");
+            if (input == null || input.trim().isEmpty() || input.trim().equalsIgnoreCase("exit")) {
                 return null;
             }
 

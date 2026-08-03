@@ -70,7 +70,6 @@ class ExportCommandTest {
         }
     }
 
-    // Исправленная стратегия, которая выбрасывает исключение
     private static class FailingExportStrategy implements ExportStrategy {
         private final String label;
 
@@ -186,14 +185,28 @@ class ExportCommandTest {
     }
 
     @Test
-    void execute_ShouldCancel_WhenFileNameIsNull() {
-        provideInput("отмена\n");
+    void execute_ShouldCancel_WhenFileNameIsExit() {
+        provideInput("exit\n");
         initCommand();
 
         exportCommand.execute(new String[0]);
 
         String output = outContent.toString();
         assertTrue(output.contains("Выбор отменён."));
+        // Проверяем, что не было запроса на выбор стратегии
+        assertFalse(output.contains("Выберите что экспортировать:"));
+    }
+
+    @Test
+    void execute_ShouldCancel_WhenFileNameIsEmpty() {
+        provideInput("\n");
+        initCommand();
+
+        exportCommand.execute(new String[0]);
+
+        String output = outContent.toString();
+        assertTrue(output.contains("Выбор отменён."));
+        assertFalse(output.contains("Выберите что экспортировать:"));
     }
 
     @Test
@@ -343,20 +356,6 @@ class ExportCommandTest {
     }
 
     @Test
-    void execute_ShouldHandleBlankFileName() {
-        TestExportStrategy testStrategy = new TestExportStrategy("Список машин");
-        strategyRegistry.register(testStrategy);
-        provideInput("отмена\n");
-        initCommand();
-
-        exportCommand.execute(new String[0]);
-
-        assertFalse(testStrategy.isExportCalled());
-        String output = outContent.toString();
-        assertTrue(output.contains("Выбор отменён."));
-    }
-
-    @Test
     void execute_ShouldHandleInvalidChoiceInConfirmation() {
         createUnsortedList();
 
@@ -391,6 +390,20 @@ class ExportCommandTest {
         TestExportStrategy testStrategy = new TestExportStrategy("Список машин");
         strategyRegistry.register(testStrategy);
         provideInput("test.txt\n\n");
+        initCommand();
+
+        exportCommand.execute(new String[0]);
+
+        assertFalse(testStrategy.isExportCalled());
+        String output = outContent.toString();
+        assertTrue(output.contains("Выбор отменён."));
+    }
+
+    @Test
+    void execute_ShouldHandleExitInStrategySelection() {
+        TestExportStrategy testStrategy = new TestExportStrategy("Список машин");
+        strategyRegistry.register(testStrategy);
+        provideInput("test.txt\nexit\n");
         initCommand();
 
         exportCommand.execute(new String[0]);
@@ -439,6 +452,22 @@ class ExportCommandTest {
     }
 
     @Test
+    void execute_ShouldHandleExitInConfirmation() {
+        createUnsortedList();
+
+        TestExportStrategy testStrategy = new TestExportStrategy("Список машин");
+        strategyRegistry.register(testStrategy);
+        provideInput("test.txt\n1\nexit\n");
+        initCommand();
+
+        exportCommand.execute(new String[0]);
+
+        assertFalse(testStrategy.isExportCalled());
+        String output = outContent.toString();
+        assertTrue(output.contains("Выбор отменён."));
+    }
+
+    @Test
     void execute_ShouldHandleFileNameWithSpaces() {
         TestExportStrategy testStrategy = new TestExportStrategy("Список машин");
         strategyRegistry.register(testStrategy);
@@ -449,22 +478,6 @@ class ExportCommandTest {
 
         assertTrue(testStrategy.isExportCalled());
         assertEquals("my test file.txt", testStrategy.getExportedFileName());
-    }
-
-    @Test
-    void execute_ShouldHandleCancelInConfirmationWithBlankResponse() {
-        createUnsortedList();
-
-        TestExportStrategy testStrategy = new TestExportStrategy("Список машин");
-        strategyRegistry.register(testStrategy);
-        provideInput("test.txt\n1\n   \n");
-        initCommand();
-
-        exportCommand.execute(new String[0]);
-
-        assertFalse(testStrategy.isExportCalled());
-        String output = outContent.toString();
-        assertTrue(output.contains("Выбор отменён."));
     }
 
     @Test
@@ -481,17 +494,6 @@ class ExportCommandTest {
         String output = outContent.toString();
         assertTrue(output.contains("Ошибка:"));
         assertTrue(output.contains("Имя файла принято: test.txt"));
-    }
-
-    @Test
-    void execute_ShouldHandleCaseInsensitiveCancel() {
-        provideInput("ОТМЕНА\n");
-        initCommand();
-
-        exportCommand.execute(new String[0]);
-
-        String output = outContent.toString();
-        assertTrue(output.contains("Выбор отменён."));
     }
 
     @Test
@@ -519,5 +521,37 @@ class ExportCommandTest {
         assertFalse(testStrategy.isExportCalled());
         String output = outContent.toString();
         assertTrue(output.contains("Неизвестный тип данных для экспорта."));
+    }
+
+    @Test
+    void execute_ShouldCancelWhenInvalidFileNameThenExit() {
+        TestExportStrategy testStrategy = new TestExportStrategy("Список машин");
+        strategyRegistry.register(testStrategy);
+        provideInput("invalid?.txt\nexit\n");
+        initCommand();
+
+        exportCommand.execute(new String[0]);
+
+        assertFalse(testStrategy.isExportCalled());
+        String output = outContent.toString();
+        assertTrue(output.contains("Ошибка:"));
+        assertTrue(output.contains("Попробуйте снова."));
+        assertTrue(output.contains("Выбор отменён."));
+    }
+
+    @Test
+    void execute_ShouldCancelWhenInvalidFileNameThenEmptyLine() {
+        TestExportStrategy testStrategy = new TestExportStrategy("Список машин");
+        strategyRegistry.register(testStrategy);
+        provideInput("invalid?.txt\n\n");
+        initCommand();
+
+        exportCommand.execute(new String[0]);
+
+        assertFalse(testStrategy.isExportCalled());
+        String output = outContent.toString();
+        assertTrue(output.contains("Ошибка:"));
+        assertTrue(output.contains("Попробуйте снова."));
+        assertTrue(output.contains("Выбор отменён."));
     }
 }

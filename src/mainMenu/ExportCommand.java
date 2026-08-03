@@ -53,7 +53,7 @@ public class ExportCommand implements ConsoleCommand {
         }
 
         String fileName = getFileName(scanner, out);
-        if (fileName == null || fileName.equals("exit")) {
+        if (fileName == null) {
             out.println("Выбор отменён.");
             return;
         }
@@ -106,10 +106,10 @@ public class ExportCommand implements ConsoleCommand {
             out.printf("%d. %s%n", i + 1, s.getLabel());
         }
 
-        out.print("Ваш выбор: ");
+        out.print("Ваш выбор (или 'exit' для выхода): ");
         String line = scanner.nextLine().trim();
 
-        if (line.isBlank()) {
+        if (line.isEmpty() || line.equalsIgnoreCase("exit")) {
             out.println("Выбор отменён.");
             return null;
         }
@@ -162,17 +162,26 @@ public class ExportCommand implements ConsoleCommand {
         out.println("Массив еще не был отсортирован.");
         out.println("Вы точно хотите сохранить его в файл?");
         out.println("1 - Да");
-        out.println("2 - Нет");
+        out.println("2 - Нет (или 'exit' для выхода)");
 
         String response = scanner.nextLine().trim();
-        if (response.isBlank() || response.equals("exit")) {
+
+        if (response.isEmpty() || response.equalsIgnoreCase("exit")) {
             out.println("Выбор отменён.");
             return false;
         }
 
         try {
             int choice = Integer.parseInt(response);
-            return choice == 1;
+            if (choice == 1) {
+                return true;
+            } else if (choice == 2) {
+                out.println("Экспорт отменён.");
+                return false;
+            } else {
+                out.println("Некорректный ввод. Введите 1 или 2.");
+                return false;
+            }
         } catch (NumberFormatException e) {
             out.println("Некорректный ввод. Введите 1 или 2.");
             return false;

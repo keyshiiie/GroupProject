@@ -159,8 +159,8 @@ class FileManagerTest {
     }
 
     @Test
-    void testGetFileName_Cancel() {
-        String input = "отмена\n";
+    void testGetFileName_CancelWithExit() {
+        String input = "exit\n";
         Scanner scanner = new Scanner(input);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outputStream);
@@ -172,8 +172,21 @@ class FileManagerTest {
     }
 
     @Test
-    void testGetFileName_CancelWithSpaces() {
-        String input = "  отмена  \n";
+    void testGetFileName_CancelWithEmptyLine() {
+        String input = "\n";
+        Scanner scanner = new Scanner(input);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(outputStream);
+
+        String result = FileManager.getFileName(scanner, out);
+
+        assertNull(result);
+        assertTrue(outputStream.toString().contains("Введите имя файла"));
+    }
+
+    @Test
+    void testGetFileName_CancelWithExitAndSpaces() {
+        String input = "  exit  \n";
         Scanner scanner = new Scanner(input);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outputStream);
@@ -184,8 +197,8 @@ class FileManagerTest {
     }
 
     @Test
-    void testGetFileName_CancelUpperCase() {
-        String input = "ОТМЕНА\n";
+    void testGetFileName_CancelWithExitUpperCase() {
+        String input = "EXIT\n";
         Scanner scanner = new Scanner(input);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(outputStream);
@@ -193,6 +206,21 @@ class FileManagerTest {
         String result = FileManager.getFileName(scanner, out);
 
         assertNull(result);
+    }
+
+    @Test
+    void testGetFileName_InvalidThenExit() {
+        String input = "invalid?.txt\nexit\n";
+        Scanner scanner = new Scanner(input);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(outputStream);
+
+        String result = FileManager.getFileName(scanner, out);
+
+        assertNull(result);
+        String output = outputStream.toString();
+        assertTrue(output.contains("Ошибка:"));
+        assertTrue(output.contains("Попробуйте снова."));
     }
 
     @Test
@@ -206,8 +234,8 @@ class FileManagerTest {
 
         assertEquals("validfile", result);
         String output = outputStream.toString();
-        assertTrue(output.contains("Ошибка"));
-        assertTrue(output.contains("Введите имя файла"));
+        assertTrue(output.contains("Ошибка:"));
+        assertTrue(output.contains("Попробуйте снова."));
     }
 
     @Test
@@ -219,8 +247,25 @@ class FileManagerTest {
 
         String result = FileManager.getFileName(scanner, out);
 
-        assertEquals("validfile", result);
-        assertTrue(outputStream.toString().contains("Ошибка"));
+        // Пустая строка - это выход, поэтому вернется null
+        assertNull(result);
+        String output = outputStream.toString();
+        assertTrue(output.contains("Введите имя файла"));
+    }
+
+    @Test
+    void testGetFileName_InvalidThenEmptyLine() {
+        String input = "invalid?.txt\n\n";
+        Scanner scanner = new Scanner(input);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(outputStream);
+
+        String result = FileManager.getFileName(scanner, out);
+
+        assertNull(result);
+        String output = outputStream.toString();
+        assertTrue(output.contains("Ошибка:"));
+        assertTrue(output.contains("Попробуйте снова."));
     }
 
     @Test
